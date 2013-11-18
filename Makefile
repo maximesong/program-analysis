@@ -5,24 +5,26 @@ vpath %.d build
 
 CC = clang++
 program = pa
-sources = main.cpp
+sources = main.cpp analyzer.cpp
 objects = $(addprefix build/,$(sources:.cpp=.o))
 build_dir = build
+CXXFLAGS += -Iinclude
 
 all: $(program)
-
-$(build_dir):
-	mkdir $@
 
 $(program): $(objects)
 	$(CC) $^ -o $@
 
-build/%.d: %.cpp $(build_dir)
+build/%.d: %.cpp
+	mkdir -p build
 	@set -e; rm -f $@; \
-		$(CC) -MM $(CPPFLAGS) $< | sed 's,\($*\)\.o[ :]*,\1.o $@ :,g' > $@
+		$(CC) -MM $(CXXFLAGS) $< > $@.$$$$; \
+		sed 's,\($*\)\.o[ :]*,\1.o $@ :,g' < $@.$$$$ > $@; \
+		cat $@ ;\
+		rm -f $@.$$$$
 		
 build/%.o: %.cpp
-	$(CC) -c -o $@ $(CPPFLAGS) $<
+	$(CC) -c -o $@ $(CXXFLAGS) $<
 
 clean:
 	rm -rf $(program) build
