@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/song/Projects/pa-llvm/samples/build",
+  "command": "/usr/bin/clang++      -o CMakeFiles/sample.dir/main.cpp.o -c /home/song/Projects/pa-llvm/samples/main.cpp",
+  "file": "/home/song/Projects/pa-llvm/samples/main.cpp"
+}
+]

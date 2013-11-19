@@ -2,3 +2,5 @@ build
 lib
 *.swp
 pa
+llvm
+llvm-build
