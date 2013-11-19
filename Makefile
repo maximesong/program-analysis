@@ -31,4 +31,7 @@ build/%.o: %.cpp
 clean:
 	rm -rf $(program) build
 
+try: $(program)
+	@./$(program) samples/main.cpp
+
 include $(addprefix build/,$(sources:.cpp=.d))
