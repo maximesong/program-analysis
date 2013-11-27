@@ -1,0 +1,46 @@
+Program Analysis based on LLVM and Clang
+
+# Setup Build Environment
+1. build llvm and clang
+ - currently, the project is only tested under llvm-3.3 and clang-3.3, you'd better stick to that release version
+ - build llvm and clang under the instruction here "http://clang.llvm.org/get_started.html"
+
+2. setup the build envrionment for our project
+ - move the build directory of llvm to project's root directory, and rename it to "llvm-build"
+
+After that, your directory should look like this.
+
+|-- include
+|   `-- analyzer.h
+|-- llvm-build
+|   |-- bindings
+|   |-- docs
+|   |-- examples
+|   |-- include
+|   |-- lib
+|   |-- Makefile
+|   |-- projects
+|   |-- Release+Asserts
+|   |-- runtime
+|   |-- test
+|   |-- tools
+|   |-- unittests
+|   `-- utils
+|-- Makefile
+|-- README
+|-- samples
+|   |-- build
+|   |-- CMakeLists.txt
+|   |-- compile_commands.json
+|   |-- main.cpp
+|   |-- Makefile
+|   `-- sample
+`-- src
+    |-- analyzer.cpp
+    `-- main.cpp
+
+Make sure that there's a "Release+Asserts" directory under "llvm-build" which contains header files and libraries.
+
+ - invoke `make`	(clang++ is needed to compile the source code)
+ - done
+

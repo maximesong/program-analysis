@@ -6,15 +6,50 @@
 #include "clang/Frontend/FrontendActions.h"
 #include "clang/Tooling/Tooling.h"
 #include "clang/Analysis/CallGraph.h"
+#include "clang/Analysis/CFG.h"
+#include "clang/Analysis/AnalysisContext.h"
 #include "clang/Frontend/FrontendAction.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/ASTConsumer.h"
 #include "clang/Frontend/CompilerInstance.h"
+#include "clang/Basic/LangOptions.h"
 
 using namespace std;
 using namespace clang::tooling;
 using namespace clang;
 using namespace llvm;
+
+class FindNamedClassVisitor
+: public RecursiveASTVisitor<FindNamedClassVisitor> {
+public:
+	explicit FindNamedClassVisitor() {}
+
+	bool VisitCXXRecordDecl(CXXRecordDecl *Declaration) {
+		cout << "C Plus Plus Class"<< endl;
+		return true;
+	}
+
+	bool VisitFunctionDecl(FunctionDecl *D) {
+		AnalysisDeclContextManager *m = new  AnalysisDeclContextManager();
+		AnalysisDeclContext context(m, D);
+		CFG *cfg = context.getCFG();
+		LangOptions ops;
+		cfg->dump(ops, true);
+		return true;
+	}
+
+private:
+};
+
+/*
+class FindNamedClassVisitor : public RecursiveASTVisitor<FindNamedClassVisitor> {
+public:
+	bool visitDecl(Decl *decl) {
+		cout << "decl" << endl;
+		return true;
+	}
+};
+*/
 
 class FindNamedClassConsumer : public ASTConsumer {
 public:
@@ -28,6 +63,15 @@ public:
 		CallGraph callGraph;
 		callGraph.addToCallGraph(Context.getTranslationUnitDecl());
 		callGraph.dump();
+		FindNamedClassVisitor v;
+		v.TraverseDecl(Context.getTranslationUnitDecl());
+		/*
+		AnalysisDeclContextManager *m = new  AnalysisDeclContextManager();
+		AnalysisDeclContext context(m, Context.getTranslationUnitDecl());
+		CFG *cfg = context.getCFG();
+		LangOptions ops;
+		cfg->dump(ops, true);
+		*/
 	}
 };
 
