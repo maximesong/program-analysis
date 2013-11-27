@@ -8,14 +8,17 @@ program = pa
 sources = main.cpp analyzer.cpp
 objects = $(addprefix build/,$(sources:.cpp=.o))
 build_dir = build
-CXXFLAGS += -Iinclude -lclangTooling -lclangFrontendTool -lclangFrontend -lclangDriver -lclangSerialization -lclangCodeGen -lclangParse -lclangSema -lclangStaticAnalyzerFrontend -lclangStaticAnalyzerCheckers -lclangStaticAnalyzerCore -lclangARCMigrate -lclangRewriteFrontend -lclangRewriteCore -lclangAnalysis -lclangEdit -lclangAST -lclangBasic -lclangLex `llvm-build/Release+Asserts/bin/llvm-config --cxxflags --ldflags --libs`
+LINKFLAGS = -lclangTooling -lclangFrontendTool -lclangFrontend -lclangDriver -lclangSerialization -lclangCodeGen -lclangParse -lclangSema -lclangStaticAnalyzerFrontend -lclangStaticAnalyzerCheckers -lclangStaticAnalyzerCore -lclangARCMigrate -lclangRewriteFrontend -lclangRewriteCore -lclangAnalysis -lclangEdit -lclangAST -lclangBasic -lclangLex `llvm-build/Release+Asserts/bin/llvm-config --cxxflags --ldflags --libs`
+
+
+CXXFLAGS += -Iinclude `llvm-build/Release+Asserts/bin/llvm-config --cxxflags`
 
 # -Lllvm-build/Release+Asserts/lib/ -lclangTooling -lclang -lLLVMCore -lLTO -L/usr/lib64/llvm -lLLVMSupport
 
 all: $(program)
 
 $(program): $(objects)
-	$(CC) $^ -o $@ $(CXXFLAGS)
+	$(CC) $^ -o $@ $(LINKFLAGS)
 
 build/%.d: %.cpp
 	mkdir -p build
