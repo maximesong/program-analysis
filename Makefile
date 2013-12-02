@@ -37,4 +37,7 @@ clean:
 try: $(program)
 	@./$(program) samples/main.cpp
 
+runserver:
+	@python web/server.py
+
 include $(addprefix build/,$(sources:.cpp=.d))
