@@ -38,6 +38,6 @@ try: $(program)
 	@./$(program) samples/main.cpp
 
 runserver:
-	@python web/server.py
+	@cd web && python server.py 8000
 
 include $(addprefix build/,$(sources:.cpp=.d))

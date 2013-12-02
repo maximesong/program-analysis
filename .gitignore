@@ -5,3 +5,4 @@ pa
 llvm
 llvm-build
 *.pyc
+*~

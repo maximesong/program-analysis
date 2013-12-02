@@ -1,15 +1,14 @@
 import web
 
-urls = (
-	'/', 'index'
-)
+app = web.auto_application()
+render = web.template.render('templates/')
 
-class index:
+class index(app.page):
+	path = '/'
 	def GET(self):
-		return "Hi, LLVM and Clang!"
+		return render.index()
 
 if __name__ == '__main__':
-	app = web.application(urls, globals())
 	app.run()
 
 
