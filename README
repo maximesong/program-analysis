@@ -44,3 +44,9 @@ Make sure that there's a "Release+Asserts" directory under "llvm-build" which co
  - invoke `make`	(clang++ is needed to compile the source code)
  - done
 
+# Try the demo
+invoke `./pa sample/main.cpp`
+
+# Run the server
+invoke `make runserver`
+then open url 'http://localhost:8000'
