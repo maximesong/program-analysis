@@ -1,16 +1,38 @@
-//#include <iostream>
+#include <iostream>
+using namespace std;
+
+template<class T>
+void tprint(T t) {
+	cout << t << endl;
+}
 
 class A {
+public:
 	int bar() {
+		bar();
+		tprint(1);
 		return 2;
 	}
 };
 
+
 int foo() {
+	A a;
+	a.bar();
 	return 0;
 }
+
+void foo2() {
+}
+
+double foo(int a) {
+	foo2();
+	return 3.14;
+}
+
 int main() {
 	foo();
+	foo(1);
 	int a = 2;
 	if (a > 0) {
 		//cout << a << endl;

@@ -11,8 +11,25 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 	SourceManager &manager = Context.getSourceManager();
 	for (auto e : callGraph) {
 		if (e.first != 0) {
-			cout << manager.getFilename(e.first->getSourceRange().getBegin()).data() << endl;
-			e.first->dump();
+			string source_file = 
+				manager.getFilename(e.first->getSourceRange().getBegin()).data();
+			if (source_file == "input.cc") {
+				//e.first->dump();
+				cout << "S" << endl;
+				e.second->dump();
+				cout << " : " << endl;
+				/*
+				for (auto i = e.second->begin(); i != e.second->end(); ++i) {
+					i->dump();
+				}
+				*/
+				for (auto i : *e.second) {
+					cout << "EE: " << endl;
+					i->dump();
+					cout << "\t" << endl;
+				}
+				cout << endl;
+			}
 
 			//cout << i.first->getSourceRange() << endl;
 		}
