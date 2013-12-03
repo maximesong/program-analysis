@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+$def with (abc,jsonvalue)
 <html lang="en-us">
   <head>
     <meta charset="utf-8"/>
@@ -20,6 +20,9 @@
     <script src="static/js/dialog.js"></script>
     <script src="static/js/searchcursor.js"></script>
     <script src="static/js/web.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script src="static/js/springy.js"></script>
+    <script src="static/js/springyui.js"></script>
     <title>Program Analysis</title>
   </head>
   <body>
@@ -44,14 +47,32 @@
     </div>
     
     <div class="container">
-      <form>
+      <form action="" method="post">
 	<textarea id="editor" name="code">
 int main() {
   return 0;
 }</textarea>
+      <button class="btn btn-primary" type="submit" name="submit" style="position:absolute;left:150px;bottom:0px;">Analyze</button>
       </form>
-      <button class="btn btn-primary">Analyze</button>
+      <canvas id="springydemo" width="640" height="480" style="position:absolute;right:50px;"/>
     </div>
+<script>
+var graphJSON;
+jQuery(function(){  
+  graphJSON= jQuery("#awesome-json").attr("value");
+  if(graphJSON != ""){
+  var graph = new Springy.Graph();
+  graph.loadJSON(graphJSON);
+  var springy = jQuery('#springydemo').springy({
+    graph: graph
+  });
+  }else{
+    console.log("empty");
+   }
+});
+</script>
+<input type="hidden" id="awesome-json" value='$jsonvalue'/>
+<br/><br/><br/>
+<h1>$abc</h1>
   </body>
 </html>
-

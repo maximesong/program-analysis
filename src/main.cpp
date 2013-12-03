@@ -67,7 +67,7 @@ public:
 		CallGraph callGraph;
 		callGraph.addToCallGraph(Context.getTranslationUnitDecl());
 		for (auto i : callGraph) {
-			cout << i << endl;
+			//cout << i << endl;
 		}
 		callGraph.dump();
 		FindNamedClassVisitor v;
