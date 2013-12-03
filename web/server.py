@@ -1,6 +1,7 @@
 import web
 import os
 import subprocess
+import sys
 
 app = web.auto_application()
 render = web.template.render('templates/')
@@ -21,6 +22,12 @@ class index(app.page):
         output=proc.stdout.read()
         json = '{"nodes": ["SWH","LMY","ZYL","ZJJ"],"edges": [["ZJJ", "SWH"],["ZJJ", "LMY"],["ZJJ", "ZYL"],["SWH", "LMY"],["SWH", "ZYL"]]}'
         return render.index(output,json)
+
+class dir(app.page):
+    path = '/dir'
+    def GET(self):
+        listfile = os.listdir('cppcodes')
+        return render.mydir(listfile)
 
 if __name__ == '__main__':
 	app.run()

@@ -1,0 +1,12 @@
+$def with (list)
+<html>
+<body>
+<table>
+    $for l in list:
+    <tr class = "$loop.parity">
+        <td>$loop.index</td>
+        <td>$l</td>
+    </tr>
+</table>
+</body>
+</html>
