@@ -1,5 +1,5 @@
 //#include <iostream>
-//using namespace std;
+using namespace std;
 
 class A {
 	int bar() {
@@ -13,7 +13,7 @@ int main() {
 	foo();
 	int a = 2;
 	if (a > 0) {
-	//	cout << a << endl;
+		//cout << a << endl;
 	} else {
 	//	cout << a - 1 << endl;
 	}

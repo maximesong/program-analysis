@@ -6,3 +6,4 @@ llvm
 llvm-build
 *.pyc
 *~
+hello.cpp

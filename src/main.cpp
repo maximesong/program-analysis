@@ -1,4 +1,7 @@
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <fstream>
 #include <vector>
 
 #include <stdint.h>
@@ -30,6 +33,7 @@ public:
 	}
 
 	bool VisitFunctionDecl(FunctionDecl *D) {
+		cout << "??" << endl;
 		AnalysisDeclContextManager *m = new  AnalysisDeclContextManager();
 		AnalysisDeclContext context(m, D);
 		CFG *cfg = context.getCFG();
@@ -62,6 +66,9 @@ public:
 	virtual void HandleTranslationUnit(ASTContext &Context) {
 		CallGraph callGraph;
 		callGraph.addToCallGraph(Context.getTranslationUnitDecl());
+		for (auto i : callGraph) {
+			cout << i << endl;
+		}
 		callGraph.dump();
 		FindNamedClassVisitor v;
 		v.TraverseDecl(Context.getTranslationUnitDecl());
@@ -84,15 +91,32 @@ public:
 	}
 };
 
+void analyze_code(string source) {
+	runToolOnCode(new AnalysisAction, source);
+}
+
+void analyze_file(string filename) {
+	std::ifstream t(filename.c_str());
+	std::stringstream buffer;
+	buffer << t.rdbuf();
+	analyze_code(buffer.str());
+}
+
 int main(int argc, const char **argv) {
+	/*
 	cout << "Hello" << endl;
 	CommonOptionsParser OptionsParser(argc, argv);
-	CallGraph call;
 	ClangTool Tool(OptionsParser.getCompilations(),
 			OptionsParser.getSourcePathList());
 	Tool.run(newFrontendActionFactory<AnalysisAction>());
+	*/
 	/*
 	runToolOnCode(new AnalysisAction, argv[1]);
 	*/
+	if (argc >= 1) {
+		analyze_file(argv[1]);
+	} else {
+		cout << "Usage: " << argv[0] << " <filename>" << endl;
+	}
 	return 0;
 }
