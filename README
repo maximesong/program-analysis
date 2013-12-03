@@ -48,7 +48,7 @@ Make sure that there's a "Release+Asserts" directory under "llvm-build" which co
  - done
 
 # Try the demo
-invoke `./pa sample/main.cpp`
+invoke `./pa samples/main.cpp`
 
 # Run the server
 invoke `make runserver`
