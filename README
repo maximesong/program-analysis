@@ -1,9 +1,12 @@
 Program Analysis based on LLVM and Clang
 
 # Setup Build Environment
+
 1. build llvm and clang
  - currently, the project is only tested under llvm-3.3 and clang-3.3, you'd better stick to that release version
+ - Download 'Release Version' of llvm and clang(not svn or git version)
  - build llvm and clang under the instruction here "http://clang.llvm.org/get_started.html"
+ - invoke `make install` in the build directory to add clang headers and executables to the system
 
 2. setup the build envrionment for our project
  - move the build directory of llvm to project's root directory, and rename it to "llvm-build"
