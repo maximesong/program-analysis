@@ -11,8 +11,6 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Basic/LangOptions.h"
 
-#include "jsonxx.h"
-
 #include "consumers.h"
 
 using namespace std;
