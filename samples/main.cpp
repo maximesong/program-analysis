@@ -1,8 +1,8 @@
 //#include <iostream>
-using namespace std;
 
 class A {
 	int bar() {
+		return 2;
 	}
 };
 
