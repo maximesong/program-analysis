@@ -6,6 +6,11 @@
 using namespace std;
 using namespace jsonxx;
 
+string getFunctionName(FunctionDecl *decl) 
+{
+	return decl->getNameInfo().getName().getAsString();
+}
+
 void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 {
 	CallGraph callGraph;
@@ -19,7 +24,8 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 			string source_file = 
 				manager.getFilename(e.first->getSourceRange().getBegin()).data();
 			if (source_file == "input.cc") {
-				string caller = to_string((long) e.second);
+				FunctionDecl *caller_decl = cast<FunctionDecl>(e.second->getDecl());
+				string caller = getFunctionName(caller_decl);
 				nodes << caller;
 				//e.first->dump();
 				/*
@@ -29,7 +35,8 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 				*/
 				Array callees;
 				for (auto i : *e.second) {
-					callees << to_string((long) i);
+					FunctionDecl *callee_decl = cast<FunctionDecl>(i->getDecl());
+					callees << getFunctionName(callee_decl);
 					edges << Object(caller, callees);
 				}
 			}
