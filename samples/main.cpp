@@ -15,6 +15,17 @@ public:
 	}
 };
 
+namespace B {
+
+	void bar() 
+	{
+	}
+
+}
+
+void bar()
+{
+}
 
 int foo() {
 	A a;
@@ -22,17 +33,19 @@ int foo() {
 	return 0;
 }
 
-void foo2() {
+void foo2(double, long) {
 }
 
 double foo(int a) {
-	foo2();
+	foo2(0.0, 1);
 	return 3.14;
 }
 
 int main() {
 	foo();
 	foo(1);
+	bar();
+	B::bar();
 	int a = 2;
 	if (a > 0) {
 		//cout << a << endl;

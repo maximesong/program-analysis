@@ -13,6 +13,14 @@
 using namespace clang;
 using namespace std;
 
+class FunctionInfo {
+public:
+	string name;
+	string return_type;
+	vector<string> parameter_types;
+	string qualified_name();
+};
+
 class CallGraphConsumer : public ASTConsumer {
 public:
 	virtual void HandleTranslationUnit(ASTContext &context);
