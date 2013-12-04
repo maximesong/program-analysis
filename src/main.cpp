@@ -38,18 +38,17 @@ void analyze_file(string filename) {
 }
 
 int main(int argc, const char **argv) {
-	/*
-	cout << "Hello" << endl;
-	CommonOptionsParser OptionsParser(argc, argv);
-	ClangTool Tool(OptionsParser.getCompilations(),
-			OptionsParser.getSourcePathList());
-	Tool.run(newFrontendActionFactory<AnalysisAction>());
-	*/
-	/*
-	runToolOnCode(new AnalysisAction, argv[1]);
-	*/
-	if (argc >= 1) {
+	if (argc == 2) {
 		analyze_file(argv[1]);
+	} else if (argc == 3) {
+		int my_argc = 2;
+		const char *my_argv[2];
+		my_argv[0] = argv[0];
+		my_argv[1] = argv[2];
+		CommonOptionsParser OptionsParser(my_argc, my_argv);
+		ClangTool Tool(OptionsParser.getCompilations(),
+				OptionsParser.getSourcePathList());
+		Tool.run(newFrontendActionFactory<ProgramAnalysisAction>());
 	} else {
 		cout << "Usage: " << argv[0] << " <filename>" << endl;
 	}

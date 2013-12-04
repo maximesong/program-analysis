@@ -53,6 +53,15 @@ FunctionInfo getFunctionInfo(ASTContext &context, FunctionDecl *decl)
 	return info;
 }
 
+bool is_user_defined(string filename) {
+	//cout << filename << endl;
+	if (filename.find("/usr") == string::npos) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 {
 	CallGraph callGraph;
@@ -65,7 +74,7 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 		if (e.first != 0) {
 			string source_file = 
 				manager.getFilename(e.first->getSourceRange().getBegin()).data();
-			if (source_file == "input.cc") {
+			if (is_user_defined(source_file)) {
 				FunctionDecl *caller_decl = cast<FunctionDecl>(e.second->getDecl());
 				FunctionInfo caller = getFunctionInfo(Context, caller_decl);
 				nodes << caller.id() << caller.to_json();
