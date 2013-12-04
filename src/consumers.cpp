@@ -1,30 +1,45 @@
 #include "consumers.h"
 
 #include <iostream>
-#include "jsonxx.h"
 
 using namespace std;
 using namespace jsonxx;
 
-string FunctionInfo::qualified_name()
+string FunctionInfo::id()
 {
-	string qualified_name;
-	qualified_name += name;
-	qualified_name += "(";
+	string id;
+	id += qualified_name;
+	id += "(";
 	if (parameter_types.size() != 0) {
-		qualified_name += parameter_types[0];
+		id += parameter_types[0];
 		for (int i = 1; i != parameter_types.size(); ++i) {
-			qualified_name += ", " + parameter_types[i];
+			id += ", " + parameter_types[i];
 		}
 	}
-	qualified_name += ")";
-	return qualified_name;
+	id += ")";
+	return id;
+}
+
+Object FunctionInfo::to_json()
+{
+	Object func;
+	func << "id" << id()
+		<< "name" << name
+		<< "qualified_name" << qualified_name
+		<< "return_type" << return_type;
+	Array parameters;
+	for (auto p : parameter_types) {
+		parameters << p;
+	}
+	func << "parameter_types" << parameters;
+	return func;
 }
 
 FunctionInfo getFunctionInfo(ASTContext &context, FunctionDecl *decl)
 {
 	FunctionInfo info;
-	info.name = decl->getQualifiedNameAsString();
+	info.name = decl->getNameAsString();
+	info.qualified_name = decl->getQualifiedNameAsString();
 	info.return_type = decl->getResultType().getAsString();
 	for (auto p = decl->param_begin(); p != decl->param_end(); ++p) {
 		string type = (*p)->getOriginalType().getAsString();
@@ -44,8 +59,8 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 	callGraph.addToCallGraph(Context.getTranslationUnitDecl());
 	SourceManager &manager = Context.getSourceManager();
 	Object all;
-	Array edges;
-	Array nodes;
+	Object edges;
+	Object nodes;
 	for (auto e : callGraph) {
 		if (e.first != 0) {
 			string source_file = 
@@ -53,7 +68,7 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 			if (source_file == "input.cc") {
 				FunctionDecl *caller_decl = cast<FunctionDecl>(e.second->getDecl());
 				FunctionInfo caller = getFunctionInfo(Context, caller_decl);
-				nodes << caller.qualified_name();
+				nodes << caller.id() << caller.to_json();
 				//e.first->dump();
 				/*
 				for (auto i = e.second->begin(); i != e.second->end(); ++i) {
@@ -64,9 +79,9 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 				for (auto i : *e.second) {
 					FunctionDecl *callee_decl = cast<FunctionDecl>(i->getDecl());
 					FunctionInfo callee = getFunctionInfo(Context, callee_decl);
-					callees << callee.qualified_name();
+					callees << callee.id();
 				}
-				edges << Object(caller.qualified_name(), callees);
+				edges << caller.id() << callees;
 			}
 			//cout << i.first->getSourceRange() << endl;
 		}

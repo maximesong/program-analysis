@@ -10,15 +10,20 @@
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/ASTConsumer.h"
 
+#include "jsonxx.h"
+
 using namespace clang;
 using namespace std;
+using namespace jsonxx;
 
 class FunctionInfo {
 public:
 	string name;
 	string return_type;
 	vector<string> parameter_types;
-	string qualified_name();
+	string qualified_name;
+	string id();
+	Object to_json();
 };
 
 class CallGraphConsumer : public ASTConsumer {
