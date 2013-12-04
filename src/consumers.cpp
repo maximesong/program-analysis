@@ -86,8 +86,8 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 			//cout << i.first->getSourceRange() << endl;
 		}
 	}
-	all << "nodes" << nodes;
-	all << "edges" << edges;
+	all << "functions" << nodes;
+	all << "calls" << edges;
 	cout << all.json() << endl;
 }
 

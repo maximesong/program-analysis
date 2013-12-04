@@ -2,6 +2,7 @@ import web
 import os
 import subprocess
 import sys
+import json
 
 app = web.auto_application()
 render = web.template.render('templates/')
@@ -20,8 +21,21 @@ class index(app.page):
         proc = subprocess.Popen(["../pa","myfile.cpp"],stdout=subprocess.PIPE)
         proc.wait()
         output=proc.stdout.read()
-        json = '{"nodes": ["SWH","LMY","ZYL","ZJJ"],"edges": [["ZJJ", "SWH"],["ZJJ", "LMY"],["ZJJ", "ZYL"],["SWH", "LMY"],["SWH", "ZYL"]]}'
-        return render.index(output,json)
+	input_json = json.loads(output);
+	output_json = {
+			"nodes": [
+				],
+			"edges": [
+			],
+			};
+	for func in input_json["functions"]:
+		output_json["nodes"].append(func)
+	calls = input_json["calls"]
+	for caller in calls:
+		for callee in calls[caller]:
+			output_json["edges"].append([ caller, callee ])
+	print output_json
+        return render.index(output, json.dumps(output_json))
 
 class dir(app.page):
     path = '/dir'
