@@ -2,7 +2,7 @@ $def with (abc,jsonvalue)
 <div class="container">
   <h2>Source Code</h2>
   <form action="" method="post">
-    <div class="row">
+      <div class="editor-container">
       <textarea id="editor" name="code">
 #include <iostream>
 using namespace std;
@@ -60,15 +60,16 @@ int main() {
 	}
 	return 0;
 }</textarea>
- </div>
-
-  <button class="btn btn-primary" type="submit" name="submit">Analyze</button>
+  <button class="btn btn-primary btn-lg" type="submit" name="submit" style="margin-left:720px;margin-top:30px;">Analyze</button>
+</div>
 </form>
 </div>
 
 <div class="container">
   <h2>Call Graph</h2>
-  <canvas id="springydemo" class="container-canvas" width="800" height="480"/>
+  <div class="container-canvas">
+    <canvas id="springydemo" width="800" height="480"/>
+  </div>
 </div>
 
 <script>
