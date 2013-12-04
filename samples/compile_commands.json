@@ -1,7 +1,12 @@
 [
 {
-  "directory": "/home/song/Projects/pa-llvm/samples/build",
-  "command": "/usr/bin/clang++      -o CMakeFiles/sample.dir/main.cpp.o -c /home/song/Projects/pa-llvm/samples/main.cpp",
+  "directory": "/home/song/Projects/pa-llvm/samples",
+  "command": "/usr/bin/c++      -o CMakeFiles/sample.dir/main.cpp.o -c /home/song/Projects/pa-llvm/samples/main.cpp",
   "file": "/home/song/Projects/pa-llvm/samples/main.cpp"
+},
+{
+  "directory": "/home/song/Projects/pa-llvm/samples",
+  "command": "/usr/bin/c++      -o CMakeFiles/sample.dir/library.cpp.o -c /home/song/Projects/pa-llvm/samples/library.cpp",
+  "file": "/home/song/Projects/pa-llvm/samples/library.cpp"
 }
 ]

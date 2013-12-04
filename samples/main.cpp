@@ -1,5 +1,7 @@
-//#include <iostream>
-//using namespace std;
+#include <iostream>
+using namespace std;
+
+#include "library.h"
 
 template<class T>
 void tprint(T t) {
@@ -69,6 +71,7 @@ void lonely() {
 }
 
 int main() {
+	lib1();
 	void (*plonely)();
 	plonely = lonely;
 	plonely();

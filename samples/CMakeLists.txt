@@ -1,3 +1,3 @@
 project(sample)
 
-add_executable(sample main.cpp)
+add_executable(sample main.cpp library.cpp)
