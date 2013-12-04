@@ -8,7 +8,7 @@ void tprint(T t) {
 
 class A {
 public:
-	int bar() {
+	virtual int bar() {
 		bar();
 		tprint(1);
 		tprint(1.1);
@@ -16,7 +16,18 @@ public:
 	}
 };
 
-namespace B {
+class B : public A{
+public:
+	virtual int bar() {
+		bar();
+		tprint('a');
+		tprint(1);
+		tprint("char");
+		return 3;
+	}
+};
+
+namespace N {
 
 	void bar() 
 	{
@@ -27,15 +38,26 @@ namespace B {
 
 void bar()
 {
+	A *a;
+	if (3 > 2) {
+		a = new B();
+	} else {
+		a = new A();
+	}
+	a->bar();
 }
 
 int foo() {
 	A a;
 	a.bar();
+	B *b = new B();
+	b->bar();
 	return 0;
 }
 
 void foo2(double, long) {
+	A *a = new B();
+	a->bar();
 }
 
 double foo(int a) {
@@ -47,7 +69,7 @@ int main() {
 	foo();
 	foo(1);
 	bar();
-	B::bar();
+	N::bar();
 	int a = 2;
 	if (a > 0) {
 		//cout << a << endl;

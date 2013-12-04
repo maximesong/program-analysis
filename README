@@ -53,3 +53,6 @@ invoke `./pa samples/main.cpp`
 # Run the server
 invoke `make runserver`
 then open url 'http://localhost:8000'
+
+# Similar commands in clang
+clang -cc1 -analyze -analyzer-checker=debug.DumpCallGraph samples/main.cpp
