@@ -19,7 +19,7 @@ public:
 class B : public A {
 public:
 	virtual int bar() {
-		bar();
+		A::bar();
 		tprint('a');
 		tprint(1);
 		tprint("char");

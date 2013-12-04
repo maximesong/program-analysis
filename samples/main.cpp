@@ -1,9 +1,9 @@
-#include <iostream>
-using namespace std;
+//#include <iostream>
+//using namespace std;
 
 template<class T>
 void tprint(T t) {
-	cout << t << endl;
+	//cout << t << endl;
 }
 
 class A {
@@ -19,7 +19,7 @@ public:
 class B : public A {
 public:
 	virtual int bar() {
-		bar();
+		A::bar();
 		tprint('a');
 		tprint(1);
 		tprint("char");
