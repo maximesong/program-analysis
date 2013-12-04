@@ -5,7 +5,7 @@ import sys
 import json
 
 app = web.auto_application()
-render = web.template.render('templates/')
+render = web.template.render('templates/', base='layout')
 
 class index(app.page):
     path = '/'

@@ -1,0 +1,50 @@
+$def with (content)
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/codemirror.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/fullscreen.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/dialog.css"/>
+    <link rel="stylesheet/less" type="text/css" href="static/less/web.less" />
+    <script src="static/js/jquery-1.10.2.min.js"></script>
+    <script src="static/js/jquery-ui.js"></script>
+    <script src="static/js/less-1.4.1.min.js"></script>
+    <script src="static/js/bootstrap.js"></script>
+    <script src="static/js/holder.js"></script>
+    <script src="static/js/codemirror.js"></script>
+    <script src="static/js/clike.js"></script>
+    <script src="static/js/fullscreen.js"></script>
+    <script src="static/js/vim.js"></script>
+    <script src="static/js/dialog.js"></script>
+    <script src="static/js/searchcursor.js"></script>
+    <script src="static/js/web.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script src="static/js/springy.js"></script>
+    <script src="static/js/springyui.js"></script>
+    <title>Program Analysis</title>
+  </head>
+  <body>
+    <nav class="navbar" role="navigation">
+    </nav>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	<span class="sr-only">Toggle navigation</span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Program Analysis</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+	<li class="active"><a href="#">Try a Short Program</a></li>
+	<li><a href="#">Here Another Link</a></li>
+      </ul>
+    </div>
+    $:content
+  </body>
+</html>
