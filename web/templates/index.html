@@ -1,65 +1,11 @@
-$def with (abc,jsonvalue)
+$def with (code, data, debug)
 <div class="container">
   <h2>Source Code</h2>
   <form action="" method="post">
       <div class="editor-container">
       <textarea id="editor" name="code">
-#include <iostream>
-using namespace std;
-
-template<class T>
-void tprint(T t) {
-	cout << t << endl;
-}
-
-class A {
-public:
-	int bar() {
-		bar();
-		tprint(1);
-		return 2;
-	}
-};
-
-namespace B {
-
-	void bar() 
-	{
-	}
-
-}
-
-void bar()
-{
-}
-
-int foo() {
-	A a;
-	a.bar();
-	return 0;
-}
-
-void foo2(double, long) {
-}
-
-double foo(int a) {
-	foo2(0.0, 1);
-	return 3.14;
-}
-
-int main() {
-	foo();
-	foo(1);
-	bar();
-	B::bar();
-	int a = 2;
-	if (a > 0) {
-		//cout << a << endl;
-	} else {
-	//	cout << a - 1 << endl;
-	}
-	return 0;
-}</textarea>
+$:code
+</textarea>
   <button class="btn btn-primary btn-lg" type="submit" name="submit" style="margin-left:720px;margin-top:30px;">Analyze</button>
 </div>
 </form>
@@ -87,7 +33,7 @@ jQuery(function(){
    }
 });
 </script>
-<input type="hidden" id="awesome-json" value='$:jsonvalue'/>
+<input type="hidden" id="awesome-json" value='$:data'/>
 <div>
-  <p style="display:none;">$abc</p>
+  <p style="display:none;">$debug</p>
 </div>
