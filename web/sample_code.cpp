@@ -16,7 +16,7 @@ public:
 	}
 };
 
-class B : public A{
+class B : public A {
 public:
 	virtual int bar() {
 		bar();
@@ -65,7 +65,13 @@ double foo(int a) {
 	return 3.14;
 }
 
+void lonely() {
+}
+
 int main() {
+	void (*plonely)();
+	plonely = lonely;
+	plonely();
 	foo();
 	foo(1);
 	bar();

@@ -47,8 +47,8 @@ FunctionInfo getFunctionInfo(ASTContext &context, FunctionDecl *decl)
 	}
 	if (isa<CXXMethodDecl>(decl)) {
 		CXXMethodDecl *method = cast<CXXMethodDecl>(decl);
-		//info.this_type = method->getParent()getThisType(context).getAsString();
-		//info.this_type = decl->getQualifiedNameAsString();
+		info.this_type = method->getThisType(context).getAsString();
+		//cout << info.this_type << "\t" << info.qualified_name << endl;
 	}
 	return info;
 }

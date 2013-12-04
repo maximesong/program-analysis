@@ -22,6 +22,7 @@ public:
 	string return_type;
 	vector<string> parameter_types;
 	string qualified_name;
+	string this_type;
 	string id();
 	Object to_json();
 };
