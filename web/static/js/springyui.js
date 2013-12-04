@@ -165,79 +165,108 @@ jQuery.fn.springy = function(params) {
 					n = i;
 				}
 			}
+			
+			// Modified here, to see if the node points to itself
+			if ( p1 == p2 ) {
+				var stroke = (edge.data.color !== undefined) ? edge.data.color : '#000000';
+				
+				var arrowWidth;
+				var arrowLength;
+				
+				arrowWidth = 5;
+				arrowLength = 8;
 
-			var spacing = 6.0;
-
-			// Figure out how far off center the line should be drawn
-			var offset = normal.multiply(-((total - 1) * spacing)/2.0 + (n * spacing));
-
-			var s1 = toScreen(p1).add(offset);
-			var s2 = toScreen(p2).add(offset);
-
-			var boxWidth = edge.target.getWidth();
-			var boxHeight = edge.target.getHeight();
-
-			var intersection = intersect_line_box(s1, s2, {x: x2-boxWidth/2.0, y: y2-boxHeight/2.0}, boxWidth, boxHeight);
-
-			if (!intersection) {
-				intersection = s2;
-			}
-
-			var stroke = (edge.data.color !== undefined) ? edge.data.color : '#000000';
-
-			var arrowWidth;
-			var arrowLength;
-
-			var weight = (edge.data.weight !== undefined) ? edge.data.weight : 1.0;
-
-			ctx.lineWidth = Math.max(weight *  2, 0.1);
-			arrowWidth = 1 + ctx.lineWidth;
-			arrowLength = 8;
-
-			var directional = (edge.data.directional !== undefined) ? edge.data.directional : true;
-
-			// line
-			var lineEnd;
-			if (directional) {
-				lineEnd = intersection.subtract(direction.normalise().multiply(arrowLength * 0.5));
-			} else {
-				lineEnd = s2;
-			}
-
-			ctx.strokeStyle = stroke;
-			ctx.beginPath();
-			ctx.moveTo(s1.x, s1.y);
-			ctx.lineTo(lineEnd.x, lineEnd.y);
-			ctx.stroke();
-
-			// arrow
-			if (directional) {
-				ctx.save();
-				ctx.fillStyle = stroke;
-				ctx.translate(intersection.x, intersection.y);
-				ctx.rotate(Math.atan2(y2 - y1, x2 - x1));
+				var directional = (edge.data.directional !== undefined) ? edge.data.directional : true;
 				ctx.beginPath();
-				ctx.moveTo(-arrowLength, arrowWidth);
-				ctx.lineTo(0, 0);
-				ctx.lineTo(-arrowLength, -arrowWidth);
-				ctx.lineTo(-arrowLength * 0.8, -0);
-				ctx.closePath();
-				ctx.fill();
-				ctx.restore();
-			}
+				ctx.arc(x1,y1,30,0,2*Math.PI);
+				ctx.strokeStyle = stroke;
+				ctx.stroke();
 
-			// label
-			if (edge.data.label !== undefined) {
-				text = edge.data.label
-				ctx.save();
-				ctx.textAlign = "center";
-				ctx.textBaseline = "top";
-				ctx.font = "10px Helvetica, sans-serif";
-				ctx.fillStyle = "#5BA6EC";
-				ctx.fillText(text, (x1+x2)/2, (y1+y2)/2);
-				ctx.restore();
-			}
+				// arrow
+				if (directional) {
+					ctx.save();
+					ctx.fillStyle = stroke;
+					ctx.beginPath();
+					ctx.moveTo(x1, y1-30);
+					ctx.lineTo(x1-arrowLength, y1-arrowWidth-30);
+					ctx.lineTo(x1-arrowLength, y1+arrowWidth*1.5-30);
+					ctx.lineTo(x1, y1-30);
+					ctx.closePath();
+					ctx.fill();
+				}
+			} else {
+				var spacing = 6.0;
 
+				// Figure out how far off center the line should be drawn
+				var offset = normal.multiply(-((total - 1) * spacing)/2.0 + (n * spacing));
+
+				var s1 = toScreen(p1).add(offset);
+				var s2 = toScreen(p2).add(offset);
+
+				var boxWidth = edge.target.getWidth();
+				var boxHeight = edge.target.getHeight();
+
+				var intersection = intersect_line_box(s1, s2, {x: x2-boxWidth/2.0, y: y2-boxHeight/2.0}, boxWidth, boxHeight);
+
+				if (!intersection) {
+					intersection = s2;
+				}
+
+				var stroke = (edge.data.color !== undefined) ? edge.data.color : '#000000';
+
+				var arrowWidth;
+				var arrowLength;
+
+				var weight = (edge.data.weight !== undefined) ? edge.data.weight : 1.0;
+
+				ctx.lineWidth = Math.max(weight *  2, 0.1);
+				arrowWidth = 1 + ctx.lineWidth;
+				arrowLength = 8;
+
+				var directional = (edge.data.directional !== undefined) ? edge.data.directional : true;
+
+				// line
+				var lineEnd;
+				if (directional) {
+					lineEnd = intersection.subtract(direction.normalise().multiply(arrowLength * 0.5));
+				} else {
+					lineEnd = s2;
+				}
+
+				ctx.strokeStyle = stroke;
+				ctx.beginPath();
+				ctx.moveTo(s1.x, s1.y);
+				ctx.lineTo(lineEnd.x, lineEnd.y);
+				ctx.stroke();
+
+				// arrow
+				if (directional) {
+					ctx.save();
+					ctx.fillStyle = stroke;
+					ctx.translate(intersection.x, intersection.y);
+					ctx.rotate(Math.atan2(y2 - y1, x2 - x1));
+					ctx.beginPath();
+					ctx.moveTo(-arrowLength, arrowWidth);
+					ctx.lineTo(0, 0);
+					ctx.lineTo(-arrowLength, -arrowWidth);
+					ctx.lineTo(-arrowLength * 0.8, -0);
+					ctx.closePath();
+					ctx.fill();
+					ctx.restore();
+				}
+
+				// label
+				if (edge.data.label !== undefined) {
+					text = edge.data.label
+					ctx.save();
+					ctx.textAlign = "center";
+					ctx.textBaseline = "top";
+					ctx.font = "10px Helvetica, sans-serif";
+					ctx.fillStyle = "#5BA6EC";
+					ctx.fillText(text, (x1+x2)/2, (y1+y2)/2);
+					ctx.restore();
+				}
+			}
 		},
 		function drawNode(node, p) {
 			var s = toScreen(p);
