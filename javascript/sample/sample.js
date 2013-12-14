@@ -11,7 +11,7 @@
 	jQuery.fn = {
 		extend: function ext(obj) {
 			for (var p in obj)
-				jQuery.fn[p] = obj[p]
+				jQuery.fn[p] = obj[p];
 		}
 	};
 
@@ -23,7 +23,7 @@
 	});
 
 	window.jQuery = jQuery;
-})()
+})();
 (function($) {
 	$.fn.highlightAlt = function(c) {
 		this.each(function(elt) {
