@@ -37,6 +37,9 @@ namespace {
 class CFGVisitor : public RecursiveASTVisitor<CFGVisitor> {
 public:
 	virtual bool VisitFunctionDecl(FunctionDecl *D) {
+		if (!D->hasBody()) {
+			return false;
+		}
 		AnalysisDeclContextManager *m = 
 			new  AnalysisDeclContextManager();
 		AnalysisDeclContext context(m, D);

@@ -1,12 +1,12 @@
 [
 {
   "directory": "/home/song/Projects/program-analysis/samples",
-  "command": "/usr/bin/c++    -I/home/song/Projects/program-analysis/samples/../llvm-build/Release+Asserts/lib/clang/3.3/include    -o CMakeFiles/sample.dir/main.cpp.o -c /home/song/Projects/program-analysis/samples/main.cpp",
+  "command": "/usr/bin/c++    -I/usr/include -I/home/song/Projects/program-analysis/samples/../llvm-build/Release+Asserts/lib/clang/3.3/include    -o CMakeFiles/sample.dir/main.cpp.o -c /home/song/Projects/program-analysis/samples/main.cpp",
   "file": "/home/song/Projects/program-analysis/samples/main.cpp"
 },
 {
   "directory": "/home/song/Projects/program-analysis/samples",
-  "command": "/usr/bin/c++    -I/home/song/Projects/program-analysis/samples/../llvm-build/Release+Asserts/lib/clang/3.3/include    -o CMakeFiles/sample.dir/library.cpp.o -c /home/song/Projects/program-analysis/samples/library.cpp",
+  "command": "/usr/bin/c++    -I/usr/include -I/home/song/Projects/program-analysis/samples/../llvm-build/Release+Asserts/lib/clang/3.3/include    -o CMakeFiles/sample.dir/library.cpp.o -c /home/song/Projects/program-analysis/samples/library.cpp",
   "file": "/home/song/Projects/program-analysis/samples/library.cpp"
 }
 ]

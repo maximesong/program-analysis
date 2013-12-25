@@ -24,7 +24,7 @@ build/%.d: %.cpp
 	mkdir -p build
 	@set -e; rm -f $@; \
 		$(CC) -MM $< $(CXXFLAGS) >  $@.$$$$; \
-		sed 's,\($*\)\.o[ :]*,\1.o $@ :,g' < $@.$$$$ > $@; \
+		sed 's,\($*\)\.o[ :]*,build/\1.o build/$@ :,g' < $@.$$$$ > $@; \
 		cat $@ ;\
 		rm -f $@.$$$$
 		
@@ -44,3 +44,6 @@ include $(addprefix build/,$(sources:.cpp=.d))
 
 database:
 	cd samples && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+static_cfg:
+	clang -cc1 -analyze -analyzer-checker=debug.DumpCFG samples/library.cpp
