@@ -47,8 +47,12 @@ Make sure that there's a "Release+Asserts" directory under "llvm-build" which co
  - invoke `make`	(clang++ is needed to compile the source code)
  - done
 
+# Build the Compilation Database
+invoke `make database`
+
 # Try the demo
-invoke `./pa samples/main.cpp`
+first make sure you have done the step 'Build the Compilation Database'
+then invoke `./pa samples/main.cpp`
 
 # Run the server
 invoke `make runserver`
