@@ -104,5 +104,34 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 
 void CFGConsumer::HandleTranslationUnit(ASTContext &Context)
 {
+	visitor.setContext(&Context);
 	visitor.TraverseDecl(Context.getTranslationUnitDecl());
+}
+
+
+bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D) 
+{
+	SourceManager &manager = context->getSourceManager();
+	StringRef ref = manager.getFilename(D->getSourceRange().getBegin());
+	if (ref.empty()) {
+		return true;
+	}
+	string source_file = ref.data();
+	if (!D->hasBody() || !is_user_defined(source_file)) {
+		cout << "Skip: " << D->getNameInfo().getAsString() << endl;
+		return true;
+	}
+	cout << source_file << endl;
+	AnalysisDeclContextManager *m = 
+		new  AnalysisDeclContextManager();
+	AnalysisDeclContext context(m, D);
+	CFG *cfg = context.getCFG();
+	LangOptions ops;
+	cfg->dump(ops, true);
+	return true;
+}
+
+void CFGVisitor::setContext(ASTContext *Context)
+{
+	context = Context;	
 }

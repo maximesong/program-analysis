@@ -68,10 +68,10 @@ double foo(int a) {
 }
 
 void lonely() {
+cout << "?" << endl;
 }
 
 int main() {
-/*
 	lib1();
 	void (*plonely)();
 	plonely = lonely;
@@ -86,7 +86,6 @@ int main() {
 	} else {
 	//	cout << a - 1 << endl;
 	}
-*/
 	cout << "Hello" << endl;
 	return 0;
 }

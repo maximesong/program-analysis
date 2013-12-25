@@ -32,24 +32,13 @@ public:
 	virtual void HandleTranslationUnit(ASTContext &context);
 };
 
-namespace {
 
 class CFGVisitor : public RecursiveASTVisitor<CFGVisitor> {
 public:
-	virtual bool VisitFunctionDecl(FunctionDecl *D) {
-		if (!D->hasBody()) {
-			return false;
-		}
-		AnalysisDeclContextManager *m = 
-			new  AnalysisDeclContextManager();
-		AnalysisDeclContext context(m, D);
-		CFG *cfg = context.getCFG();
-		LangOptions ops;
-		cfg->dump(ops, true);
-		return true;
-	}
-};
-
+	virtual bool VisitFunctionDecl(FunctionDecl *D);
+	void setContext(ASTContext *Context);
+private:
+	ASTContext *context;
 };
 
 class CFGConsumer : public ASTConsumer {
