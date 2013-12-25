@@ -41,3 +41,6 @@ runserver:
 	@cd web && python server.py 8000
 
 include $(addprefix build/,$(sources:.cpp=.d))
+
+database:
+	cd samples && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON

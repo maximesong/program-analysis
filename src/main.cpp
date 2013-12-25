@@ -39,7 +39,11 @@ void analyze_file(string filename) {
 
 int main(int argc, const char **argv) {
 	if (argc == 2) {
-		analyze_file(argv[1]);
+		//analyze_file(argv[1]);
+		CommonOptionsParser OptionsParser(argc, argv);
+		ClangTool Tool(OptionsParser.getCompilations(),
+				OptionsParser.getSourcePathList());
+		Tool.run(newFrontendActionFactory<ProgramAnalysisAction>());
 	} else if (argc == 3) {
 		int my_argc = 2;
 		const char *my_argv[2];

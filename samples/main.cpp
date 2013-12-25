@@ -1,5 +1,5 @@
-//#include <iostream>
-//using namespace std;
+#include <iostream>
+using namespace std;
 
 #include "library.h"
 
@@ -71,6 +71,7 @@ void lonely() {
 }
 
 int main() {
+/*
 	lib1();
 	void (*plonely)();
 	plonely = lonely;
@@ -85,5 +86,7 @@ int main() {
 	} else {
 	//	cout << a - 1 << endl;
 	}
+*/
+	cout << "Hello" << endl;
 	return 0;
 }
