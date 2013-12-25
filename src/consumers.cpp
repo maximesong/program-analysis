@@ -104,5 +104,5 @@ void CallGraphConsumer::HandleTranslationUnit(ASTContext &Context)
 
 void CFGConsumer::HandleTranslationUnit(ASTContext &Context)
 {
-	//v.TraverseDecl(Context.getTranslationUnitDecl());
+	visitor.TraverseDecl(Context.getTranslationUnitDecl());
 }

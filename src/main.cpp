@@ -22,7 +22,7 @@ class ProgramAnalysisAction : public ASTFrontendAction {
 public:
 	virtual ASTConsumer *CreateASTConsumer(
 			CompilerInstance &Compiler, StringRef InFile) {
-		return new CallGraphConsumer;
+		return new CFGConsumer;
 	}
 };
 
