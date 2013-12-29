@@ -18,13 +18,14 @@
       <div class="col-md-3 well">
 	<div class="nav">
 	  <ul>
-	    <div class="" ng-repeat="d in dir.dirs">
-	      <li><div class="glyphicon glyphicon-chevron-right"><a href="#{{d}}">{{d}}</a></div></li>
+	    <li><div class="glyphicon glyphicon-chevron-left"><a href="#{{dir_info.parent}}/">../</a></li>
+	    <div ng-repeat="d in dir_info.dirs">
+	      <li><div class="glyphicon glyphicon-chevron-right"><a href="#{{dir_info.base}}{{d}}/">{{d}}</a></div></li>
 	    </div>
 	  </ul>
 	  <ul>
-	    <div ng-repeat="f in dir.files">
-	      <li><div class="glyphicon glyphicon-file"></div><a href="#{{f}}">{{f}}</a></li>
+	    <div ng-repeat="f in dir_info.files">
+	      <li><div class="glyphicon glyphicon-file"></div><a href="#{{dir_info.base}}{{f}}">{{f}}</a></li>
 	    </div>
 	  </ul>
 	</div>

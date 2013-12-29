@@ -12,6 +12,8 @@ render2 = web.template.render('templates/')
 f = open("sample_code.cpp")
 sample_code = f.read()
 
+sample_root = "../samples"
+
 class index(app.page):
     path = '/'
     def GET(self):
@@ -51,26 +53,33 @@ class dir(app.page):
 
 class listdir(app.page):
     def POST(self):
-        print(web.input())
-        print(web.data())
-        return self.dir_to_json('./')
+        params = json.loads(web.data())
+        return self.dir_to_json(params["dir"])
 
     def GET(self):
-        return self.dir_to_json('./')
+        return self.dir_to_json('/')
+
+    def to_sample_dir(self, path):
+        return os.path.join(sample_root + path)
 
     def dir_to_json(self, path):
-        entries = os.listdir(path)
+        entries = os.listdir(self.to_sample_dir(path))
+        print(self.to_sample_dir(path))
+        print(entries)
         files = []
         dirs = []
         for e in entries:
-            if os.path.isfile(e):
+            p = os.path.join(path, e)
+            if os.path.isfile(self.to_sample_dir(p)):
                 files.append(e)
-            elif os.path.isdir(e):
+            elif os.path.isdir(self.to_sample_dir(p)):
                 dirs.append(e)
         web.header('Content-Type', 'application/json')
         return json.dumps({
+            'base': path,
             'files': files,
-            'dirs': dirs
+            'dirs': dirs,
+            'parent': os.path.normpath(os.path.join(path, os.pardir)),
         })
     
 class sources(app.page):
