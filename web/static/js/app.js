@@ -13,6 +13,10 @@
 	    $scope.refresh = function() {
 	    }
 
+	    $scope.is_root_dir = function() {
+		return $scope.dir_info && $scope.dir_info.base === $scope.dir_info.parent;
+	    }
+
 	    $scope.$watch(function () {
 		return $location.path();
 	    }, function (newPath) {
