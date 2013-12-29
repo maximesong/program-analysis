@@ -1,0 +1,39 @@
+ <html lang="en-us">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css"/>
+    <link rel="stylesheet/less" type="text/css" href="static/less/web.less" />
+    <script src="static/js/jquery-1.10.2.min.js"></script>
+    <script src="static/js/less-1.4.1.min.js"></script>
+    <script src="static/js/bootstrap.js"></script>
+    <script src="static/js/holder.js"></script>
+    <script src="static/js/angular.js"></script>
+    <script src="static/js/app.js"></script>
+    <title>Program Analysis from Sources</title>
+  </head>
+  <body ng-app="app">
+    <div class="container" ng-controller="sourceCtrl">
+      <h1>Sources</h1>
+      <div class="col-md-3 well">
+	<div class="nav">
+	  <ul>
+	    <div class="" ng-repeat="d in dir.dirs">
+	      <li><div class="glyphicon glyphicon-chevron-right"><a href="#{{d}}">{{d}}</a></div></li>
+	    </div>
+	  </ul>
+	  <ul>
+	    <div ng-repeat="f in dir.files">
+	      <li><div class="glyphicon glyphicon-file"></div><a href="#{{f}}">{{f}}</a></li>
+	    </div>
+	  </ul>
+	</div>
+      </div>
+      <div class="col-md-9 well">
+	<div >
+	  <div class="btn btn-primary" ng-click="refresh()">Refresh</div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

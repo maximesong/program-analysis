@@ -7,6 +7,8 @@ import json
 app = web.auto_application()
 render = web.template.render('templates/', base='layout')
 
+render2 = web.template.render('templates/')
+
 f = open("sample_code.cpp")
 sample_code = f.read()
 
@@ -46,6 +48,34 @@ class dir(app.page):
     def GET(self):
         listfile = os.listdir('cppcodes')
         return render.mydir(listfile)
+
+class listdir(app.page):
+    def POST(self):
+        print(web.input())
+        print(web.data())
+        return self.dir_to_json('./')
+
+    def GET(self):
+        return self.dir_to_json('./')
+
+    def dir_to_json(self, path):
+        entries = os.listdir(path)
+        files = []
+        dirs = []
+        for e in entries:
+            if os.path.isfile(e):
+                files.append(e)
+            elif os.path.isdir(e):
+                dirs.append(e)
+        web.header('Content-Type', 'application/json')
+        return json.dumps({
+            'files': files,
+            'dirs': dirs
+        })
+    
+class sources(app.page):
+    def GET(self):
+        return render2.sources()    
 
 if __name__ == '__main__':
 	app.run()
