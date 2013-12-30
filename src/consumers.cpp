@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "clang/Lex/Lexer.h"
+
 using namespace std;
 using namespace jsonxx;
 
@@ -111,6 +113,11 @@ void CFGConsumer::HandleTranslationUnit(ASTContext &Context)
 
 bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D) 
 {
+	//cout << "VISIT" << endl;
+	Object function;
+	Array blocks;
+
+
 	SourceManager &manager = context->getSourceManager();
 	StringRef ref = manager.getFilename(D->getSourceRange().getBegin());
 	if (ref.empty()) {
@@ -118,16 +125,39 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 	}
 	string source_file = ref.data();
 	if (!D->hasBody() || !is_user_defined(source_file)) {
-		cout << "Skip: " << D->getNameInfo().getAsString() << endl;
+		//cout << "Skip: " << D->getNameInfo().getAsString() << endl;
 		return true;
 	}
-	cout << source_file << endl;
+	//cout << source_file << endl;
+	function << "source_file" << source_file;
 	AnalysisDeclContextManager *m = 
 		new  AnalysisDeclContextManager();
 	AnalysisDeclContext context(m, D);
 	CFG *cfg = context.getCFG();
 	LangOptions ops;
-	cfg->dump(ops, true);
+	for (auto block : *cfg) {
+		//block->dump(cfg, ops, true);
+		//cout << *block << endl;
+		for (auto e : *block) {
+			if (e.getKind() == CFGElement::Kind::Statement) {
+				const Stmt *s = e.castAs<CFGStmt>().getStmt();
+				cout << s->getStmtClassName() << endl;
+				cout << s->getLocStart().printToString(manager) << endl;
+				cout << s->getLocEnd().printToString(manager) << endl;
+				llvm::StringRef sref = clang::Lexer::getSourceText(
+						CharSourceRange::getTokenRange(
+							s->getSourceRange()),
+						manager, ops);
+				cout << sref.data() << endl;
+				//s->dump();
+				//s->dump();
+			} else {
+				assert(false);
+			}
+			//cout << *b << endl;
+		}
+	}
+	//cfg->dump(ops, true);
 	return true;
 }
 

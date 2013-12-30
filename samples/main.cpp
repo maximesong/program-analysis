@@ -72,7 +72,6 @@ cout << "?" << endl;
 }
 
 int main() {
-	lib1();
 	void (*plonely)();
 	plonely = lonely;
 	plonely();
