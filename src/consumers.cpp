@@ -1,8 +1,10 @@
 #include "consumers.h"
 
 #include <iostream>
+#include <fstream>
 
 #include "clang/Lex/Lexer.h"
+#include "utils.h"
 
 using namespace std;
 using namespace jsonxx;
@@ -110,7 +112,6 @@ void CFGConsumer::HandleTranslationUnit(ASTContext &Context)
 	visitor.TraverseDecl(Context.getTranslationUnitDecl());
 }
 
-
 bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D) 
 {
 	//cout << "VISIT" << endl;
@@ -141,14 +142,22 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 		for (auto e : *block) {
 			if (e.getKind() == CFGElement::Kind::Statement) {
 				const Stmt *s = e.castAs<CFGStmt>().getStmt();
-				cout << s->getStmtClassName() << endl;
+				//cout << s->getStmtClassName() << endl;
 				cout << s->getLocStart().printToString(manager) << endl;
 				cout << s->getLocEnd().printToString(manager) << endl;
+				//s->dump();
+				CharSourceRange cr = CharSourceRange::getTokenRange(
+						s->getSourceRange());
+				SourceCodeRange r = SourceCodeRange::parse(
+						cr.getBegin().printToString(manager),
+						cr.getEnd().printToString(manager));
+				cout << "Code:" << r.getLineCode() << endl;
 				llvm::StringRef sref = clang::Lexer::getSourceText(
 						CharSourceRange::getTokenRange(
 							s->getSourceRange()),
 						manager, ops);
-				cout << sref.data() << endl;
+				//cout << "Stmt:" << sref.data() << ":END" << endl;
+				//cout << *s << endl;
 				//s->dump();
 				//s->dump();
 			} else {
