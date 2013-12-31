@@ -13,6 +13,41 @@ public:
 	int column;
 };
 
+class TextReader {
+public:
+	static string readRange(string filename, int start_line, int end_line) {
+		ifstream in(filename);
+		string content;
+		string line;
+		for (int i = 1; i != start_line; ++i) {
+			getline(in, line);
+		}
+		for (int i = start_line; i <= end_line; ++i) {
+			getline(in, line);
+			content += line;
+		}
+		return content;
+	}
+
+	static string readRange(string filename, int start_line, int start_column,
+			int end_line, int end_column)
+	{
+		ifstream in(filename);
+		string content;
+		string line;
+		for (int i = 1; i <= start_line; ++i) {
+			getline(in, line);
+		}
+		line = line.substr(start_column - 1);
+		for (int i = start_line + 1; i <= end_line; ++i) {
+			content += line;
+			getline(in, line);
+		}
+		content += line.substr(0, end_column);
+		return content;
+	}
+};
+
 class SourceCodeRange {
 public:
 	SourceCodeLocation start;
@@ -21,36 +56,13 @@ public:
 	
 	string getCode() 
 	{
-		ifstream in(filename);
-		string content;
-		string line;
-		for (int i = 0; i != start.line; ++i) {
-			getline(in, line);
-		}
-		line = line.substr(start.column - 1);
-		for (int i = start.line; i != end.line; ++i) {
-			content += line;
-			getline(in, line);
-		}
-		line = line.substr(0, end.column + 1);
-		content += line;
-		return content;
+		return TextReader::readRange(filename, start.line, start.column,
+				end.line, end.column);
 	}
 
 	string getLineCode() 
 	{
-		ifstream in(filename);
-		string content;
-		string line;
-		for (int i = 0; i != start.line; ++i) {
-			getline(in, line);
-		}
-		for (int i = start.line; i != end.line; ++i) {
-			content += line;
-			getline(in, line);
-		}
-		content += line;
-		return content;
+		return TextReader::readRange(filename, start.line, end.line);
 	}
 
 	static SourceCodeRange parse(string startLocation, string endLocation) {

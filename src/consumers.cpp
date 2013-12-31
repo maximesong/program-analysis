@@ -137,36 +137,49 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 	CFG *cfg = context.getCFG();
 	LangOptions ops;
 	for (auto block : *cfg) {
+		Object blockObject;
+
+		Array blockElements;
+		Array predArray;
+		Array succArray;
 		//block->dump(cfg, ops, true);
 		//cout << *block << endl;
+		for (auto I = block->pred_begin(); 
+				I != block->pred_end(); ++I) {
+			predArray << (*I)->getBlockID();
+		}
+		for (auto I = block->succ_begin(); 
+				I != block->succ_end(); ++I) {
+			succArray << (*I)->getBlockID();
+		}
 		for (auto e : *block) {
+			Object blockElement;
 			if (e.getKind() == CFGElement::Kind::Statement) {
 				const Stmt *s = e.castAs<CFGStmt>().getStmt();
-				//cout << s->getStmtClassName() << endl;
-				cout << s->getLocStart().printToString(manager) << endl;
-				cout << s->getLocEnd().printToString(manager) << endl;
-				//s->dump();
 				CharSourceRange cr = CharSourceRange::getTokenRange(
 						s->getSourceRange());
 				SourceCodeRange r = SourceCodeRange::parse(
 						cr.getBegin().printToString(manager),
 						cr.getEnd().printToString(manager));
-				cout << "Code:" << r.getLineCode() << endl;
-				llvm::StringRef sref = clang::Lexer::getSourceText(
-						CharSourceRange::getTokenRange(
-							s->getSourceRange()),
-						manager, ops);
-				//cout << "Stmt:" << sref.data() << ":END" << endl;
-				//cout << *s << endl;
-				//s->dump();
-				//s->dump();
+				blockElement << "start_line" << r.start.line
+					<< "start_column" << r.start.column
+					<< "end_line" << r.end.line
+					<< "end_column" << r.end.column
+					<< "code" << r.getLineCode();
+				blockElements << blockElement;
 			} else {
 				assert(false);
 			}
 			//cout << *b << endl;
 		}
+		blockObject<< "block_id" << block->getBlockID()
+			 << "pred_id_list" << predArray
+			 << "succ_id_list" << succArray
+			 << "elements" << blockElements;
+		blocks << blockObject;
 	}
-	//cfg->dump(ops, true);
+	function << "blocks" << blocks;
+	cout << function << endl;
 	return true;
 }
 
