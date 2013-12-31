@@ -132,8 +132,8 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 	//cout << source_file << endl;
 	AnalysisDeclContextManager *m = 
 		new  AnalysisDeclContextManager();
-	AnalysisDeclContext context(m, D);
-	CFG *cfg = context.getCFG();
+	AnalysisDeclContext analysis_context(m, D);
+	CFG *cfg = analysis_context.getCFG();
 	LangOptions ops;
 	for (auto block : *cfg) {
 		Object blockObject;
@@ -176,7 +176,9 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 			 << "succ_id_list" << succArray;
 		blocks << blockObject;
 	}
+	FunctionInfo function_info = getFunctionInfo(*context, D);
 	function << "source_file" << source_file
+		<< "id" << function_info.id()
 		<< "entry_id" << cfg->getEntry().getBlockID()
 		<< "exit_id" << cfg->getExit().getBlockID()
 		<< "blocks" << blocks;
