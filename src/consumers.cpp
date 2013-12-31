@@ -130,7 +130,6 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 		return true;
 	}
 	//cout << source_file << endl;
-	function << "source_file" << source_file;
 	AnalysisDeclContextManager *m = 
 		new  AnalysisDeclContextManager();
 	AnalysisDeclContext context(m, D);
@@ -138,12 +137,12 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 	LangOptions ops;
 	for (auto block : *cfg) {
 		Object blockObject;
+		block->dump(cfg, ops);
 
 		Array blockElements;
 		Array predArray;
 		Array succArray;
 		//block->dump(cfg, ops, true);
-		//cout << *block << endl;
 		for (auto I = block->pred_begin(); 
 				I != block->pred_end(); ++I) {
 			predArray << (*I)->getBlockID();
@@ -170,15 +169,17 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 			} else {
 				assert(false);
 			}
-			//cout << *b << endl;
 		}
 		blockObject<< "block_id" << block->getBlockID()
+			 << "elements" << blockElements
 			 << "pred_id_list" << predArray
-			 << "succ_id_list" << succArray
-			 << "elements" << blockElements;
+			 << "succ_id_list" << succArray;
 		blocks << blockObject;
 	}
-	function << "blocks" << blocks;
+	function << "source_file" << source_file
+		<< "entry_id" << cfg->getEntry().getBlockID()
+		<< "exit_id" << cfg->getExit().getBlockID()
+		<< "blocks" << blocks;
 	cout << function << endl;
 	return true;
 }
