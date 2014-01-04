@@ -145,11 +145,16 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 		//block->dump(cfg, ops, true);
 		for (auto I = block->pred_begin(); 
 				I != block->pred_end(); ++I) {
+			assert(*I);
 			predArray << (*I)->getBlockID();
 		}
 		for (auto I = block->succ_begin(); 
 				I != block->succ_end(); ++I) {
-			succArray << (*I)->getBlockID();
+			if (!*I) { // FIXME: A Bug of Clang here ?
+				// do nothing
+			} else {
+				succArray << (*I)->getBlockID();
+			}
 		}
 		for (auto e : *block) {
 			Object blockElement;
