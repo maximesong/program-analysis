@@ -61,17 +61,22 @@ void foo2(double, long) {
 }
 
 double foo(int a) {
+	lonely();
 	foo2(0.0, 1);
 	return 3.14;
 }
 
+/*
 void lonely() {
 }
+*/
 
 int main() {
+	/*
 	void (*plonely)();
 	plonely = lonely;
 	plonely();
+	*/
 	foo();
 	foo(1);
 	bar();
