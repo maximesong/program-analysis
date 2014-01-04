@@ -35,7 +35,7 @@ clean:
 	rm -rf $(program) build
 
 try: $(program)
-	@./$(program) samples/main.cpp
+	@./$(program) samples/library.cpp
 
 runserver:
 	@cd web && python server.py 8000
