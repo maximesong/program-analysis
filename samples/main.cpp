@@ -40,6 +40,7 @@ namespace N {
 
 void bar()
 {
+    /**
 	A *a;
 	if (3 > 2) {
 		a = new B();
@@ -47,6 +48,7 @@ void bar()
 		a = new A();
 	}
 	a->bar();
+    **/
 }
 
 int foo() {
@@ -87,4 +89,5 @@ int main() {
 	}
 	cout << "Hello" << endl;
 	return 0;
+
 }

@@ -110,6 +110,7 @@ void CFGConsumer::HandleTranslationUnit(ASTContext &Context)
 {
 	visitor.setContext(&Context);
 	visitor.TraverseDecl(Context.getTranslationUnitDecl());
+    visitor.printFuncList();
 }
 
 bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D) 
@@ -183,10 +184,21 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 		<< "exit_id" << cfg->getExit().getBlockID()
 		<< "blocks" << blocks;
 	cout << function << endl;
+    func_list << function;
 	return true;
 }
 
 void CFGVisitor::setContext(ASTContext *Context)
 {
 	context = Context;	
+}
+
+void CFGVisitor::printFuncList()
+{
+    fstream file;
+    file.open("funclist.json",fstream::trunc|fstream::out);
+    Object output;
+    output << "funclist" << func_list;
+    file << output;
+    file.close();
 }

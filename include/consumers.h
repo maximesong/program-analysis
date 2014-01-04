@@ -37,6 +37,8 @@ class CFGVisitor : public RecursiveASTVisitor<CFGVisitor> {
 public:
 	virtual bool VisitFunctionDecl(FunctionDecl *D);
 	void setContext(ASTContext *Context);
+    Array func_list;
+    void printFuncList();
 private:
 	ASTContext *context;
 };
