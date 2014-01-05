@@ -1,6 +1,7 @@
 (function() {
   angular.module("app", [])
     .controller("sourceCtrl", function($scope, $http, $location) {
+      var POST_URL = "/serverdata";
       $scope.dir = {
 	'files':[],
 	'dirs':[]
@@ -10,6 +11,10 @@
       }
 
       $scope.refresh = function() {
+      };
+
+      $scope.isCurrentPathADir = function() {
+        return $scope.currentPath.endsWith("/");
       };
 
       $scope.tabSelected = 'Source';
@@ -33,24 +38,44 @@
         function (newPath) {
           var currentDir;
           $scope.currentPath = newPath;
-	  if (newPath.endsWith("/")) {
+	  if ($scope.isCurrentPathADir()) {
             currentDir = newPath;
+	    $scope.sourceCode = "";
 	  } else {
             currentDir = newPath.replace(/\/[^\/]*$/, '/');
           }
-          $http.post("/listdir",
-		     { "dir": currentDir }
+          $http.post(POST_URL,
+		     {
+                       type: "dir",
+                       dir: currentDir
+                     }
                     ).success(function (data) {
 		      $scope.dir_info = data;
 		    });
-          if (!newPath.endsWith("/")) {
-            $http.post("/serverdata",
+          if (!$scope.isCurrentPathADir()) {
+            $http.post(POST_URL,
 		       { 
                          type: "file",
                          "filename": newPath
                        }
                       ).success(function (data) {
 		        $scope.sourceCode = data;
+		      });
+            $http.post(POST_URL,
+		       { 
+                         type: "cfg",
+                         "filename": newPath
+                       }
+                      ).success(function (data) {
+		        $scope.cfgJSON = data;
+		      });
+            $http.post(POST_URL,
+		       { 
+                         type: "cg",
+                         "filename": newPath
+                       }
+                      ).success(function (data) {
+		        $scope.cgJSON = data;
 		      });
 	  }
         });

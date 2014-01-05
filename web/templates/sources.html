@@ -53,7 +53,9 @@
 	       </ul>
 	       
 	       <pre class="source-code" ng-show="isTabSelected('Source')">{{sourceCode}}</pre>
-	       <div class="btn btn-primary" ng-click="refresh()">Refresh</div>
+	       <pre class="source-code" ng-show="isTabSelected('Call Graph')">{{cgJSON}}</pre>
+	       <pre class="source-code" ng-show="isTabSelected('CFG')">{{cfgJSON}}</pre>
+       <div class="btn btn-primary" ng-click="refresh()">Refresh</div>
 	     </div>
 	   </div>
       </div>

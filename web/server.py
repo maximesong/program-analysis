@@ -87,37 +87,6 @@ class dir(app.page):
         listfile = os.listdir('cppcodes')
         return render.mydir(listfile)
 
-class listdir(app.page):
-    def POST(self):
-        params = json.loads(web.data())
-        return self.dir_to_json(params["dir"])
-
-    def GET(self):
-        return self.dir_to_json('/')
-
-    def to_sample_dir(self, path):
-        return os.path.join(sample_root + path)
-
-    def dir_to_json(self, path):
-        entries = os.listdir(self.to_sample_dir(path))
-        print(self.to_sample_dir(path))
-        print(entries)
-        files = []
-        dirs = []
-        for e in entries:
-            p = os.path.join(path, e)
-            if os.path.isfile(self.to_sample_dir(p)):
-                files.append(e)
-            elif os.path.isdir(self.to_sample_dir(p)):
-                dirs.append(e)
-        web.header('Content-Type', 'application/json')
-        return json.dumps({
-            'base': path,
-            'files': files,
-            'dirs': dirs,
-            'parent': os.path.normpath(os.path.join(path, os.pardir)),
-        })
-    
 class serverdata(app.page):
     def POST(self):
         params = json.loads(web.data())
@@ -128,7 +97,7 @@ class serverdata(app.page):
 	elif req_type == "cg":
 	    return runpa(params["filename"],"-cg")
         elif req_type == "dir":
-            return dir_to_json(params["dir"])
+            return self.dir_to_json(params["dir"])
         elif req_type == "file":
             return showSource(params["filename"])
 

@@ -46,31 +46,20 @@ void analyze_file(string filename) {
 }
 
 int main(int argc, const char **argv) {
-	if (argc > 1) {
-		//analyze_file(argv[1]);
-                //cout << argv[2] <<endl;
-                if(argc ==3) argc--;
+	if (argc > 2) {
+		if(argc ==3) argc--;
 		CommonOptionsParser OptionsParser(argc, argv);
 		ClangTool Tool(OptionsParser.getCompilations(),
 				OptionsParser.getSourcePathList());
-                if ( strncmp(argv[2],"-cfg",4) == 0 ){
+		if (strncmp(argv[2],"-cfg", 4) == 0 ){
 			Tool.run(newFrontendActionFactory<CFGAnalysisAction>());
-                 }else if(strncmp(argv[2],"-cg",3) == 0 ){
+		} else if(strncmp(argv[2],"-cg", 3) == 0 ){
 			Tool.run(newFrontendActionFactory<CGAnalysisAction>());
-		}else{
+		} else{
 			cout<< "Usage: " << argv[2] << " <analysis type>" << endl;
 		}
-	} else if (argc == 3) {
-		int my_argc = 2;
-		const char *my_argv[2];
-		my_argv[0] = argv[0];
-		my_argv[1] = argv[2];
-		CommonOptionsParser OptionsParser(my_argc, my_argv);
-		ClangTool Tool(OptionsParser.getCompilations(),
-				OptionsParser.getSourcePathList());
-		Tool.run(newFrontendActionFactory<CFGAnalysisAction>());
 	} else {
-		cout << "Usage: " << argv[0] << " <filename>" << endl;
+		cout << "Usage: " << argv[0] << " <filename> <type>" << endl;
 	}
 	return 0;
 }
