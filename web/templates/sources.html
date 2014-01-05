@@ -15,22 +15,34 @@
   <body ng-app="app">
     <div class="container" ng-controller="sourceCtrl">
       <h1>Sources</h1>
-      <div class="col-md-3 well">
-	<div class="nav">
-	  {{dir_info.base}}
-	  <div ng-show="!is_root_dir()"><div class="glyphicon glyphicon-chevron-left"></div><a href="#{{dir_info.parent}}/">..</a></div>
-	    <div ng-repeat="d in dir_info.dirs">
-	      <div><div class="glyphicon glyphicon-chevron-right"><a href="#{{dir_info.base}}{{d}}/">{{d}}</a></div></div>
-	    </div>
-	    <div ng-repeat="f in dir_info.files">
-	      <div><div class="glyphicon glyphicon-file"></div><a href="#{{dir_info.base}}{{f}}">{{f}}</a></div>
-	    </div>
-	  </div>
-      </div>
-      <div class="col-md-9 well">
-	<div >
-	  <div class="btn btn-primary" ng-click="refresh()">Refresh</div>
-	</div>
+      <div class="row">
+	   <div class="col-md-3 well">
+	     <ul class="nav">
+	       <li ng-show="!is_root_dir()">
+		 <a href="#{{dir_info.parent}}/"><div class="glyphicon glyphicon-chevron-left"></div></a>
+	       </li>
+	       <li ng-repeat="d in dir_info.dirs">
+		 <a class="sidebar-line" href="#{{dir_info.base}}{{d}}/">
+		   <div class="glyphicon glyphicon-folder-close">
+		   </div><span class="sidebar-text">{{d}}</span>
+		 </a>
+	       </li>
+	       <li ng-repeat="f in dir_info.files">
+		 <a class="sidebar-line" href="#{{dir_info.base}}{{f}}">
+		   <div class="glyphicon glyphicon-file"></div>
+		   <span class="sidebar-text">{{f}}</span>
+		 </a>
+	       </li>
+	     </ul>
+	   </div>
+	   <div class="col-md-9">
+	     <div class="working-panel well">
+	       <div class="location-container">
+		 <div class="label label-info path-label">{{current_dir}}</div>
+	       </div>
+	       <div class="btn btn-primary" ng-click="refresh()">Refresh</div>
+	     </div>
+	   </div>
       </div>
     </div>
   </body>
