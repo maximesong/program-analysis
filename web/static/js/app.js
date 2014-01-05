@@ -75,7 +75,6 @@
                       ).success(function (data) {
 		        $scope.cfgJSON = data;
 		      });
-            /*
             $http.post(POST_URL,
 		       { 
                          type: "cg",
@@ -84,7 +83,6 @@
                       ).success(function (data) {
 		        $scope.cgJSON = data;
 		      });
-            */
 	  }
         });
     });
