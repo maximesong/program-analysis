@@ -21,15 +21,27 @@
 	  return $location.path();
         },
         function (newPath) {
-          $scope.current_dir = newPath;
-	  if (newPath == "" || newPath.endsWith("/")) {
-	    $http.post("/listdir",
-		       { "dir": newPath }
-                      ).success(function (data) {
-		        $scope.dir_info = data;
-		      });
+          var currentDir;
+          $scope.currentPath = newPath;
+	  if (newPath.endsWith("/")) {
+            currentDir = newPath;
 	  } else {
-	    console.log(newPath, "File");
+            currentDir = newPath.replace(/\/[^\/]*$/, '/');
+          }
+          $http.post("/listdir",
+		     { "dir": currentDir }
+                    ).success(function (data) {
+		      $scope.dir_info = data;
+		    });
+          if (!newPath.endsWith("/")) {
+            $http.post("/serverdata",
+		       { 
+                         type: "file",
+                         "filename": newPath
+                       }
+                      ).success(function (data) {
+		        $scope.sourceCode = data;
+		      });
 	  }
         });
     });
