@@ -40,7 +40,19 @@
 	       <div class="location-container">
 		 <div class="label label-info path-label">{{currentPath}}</div>
 	       </div>
-	       <pre>{{sourceCode}}</pre>
+	       <ul class="nav nav-tabs">
+		 <li ng-class="{ active: isTabSelected('Source') }">
+		   <a ng-click="onTabSelected('Source')" href="">Source</a>
+		 </li>
+		 <li ng-class="{ active: isTabSelected('Call Graph') }">
+		   <a ng-click="onTabSelected('Call Graph')" href="">Call Graph</a>
+		 </li>
+		 <li ng-class="{ active: isTabSelected('CFG') }"> 
+		   <a ng-click="onTabSelected('CFG')" href="">CFG</a>
+		 </li>
+	       </ul>
+	       
+	       <pre class="source-code" ng-show="isTabSelected('Source')">{{sourceCode}}</pre>
 	       <div class="btn btn-primary" ng-click="refresh()">Refresh</div>
 	     </div>
 	   </div>
