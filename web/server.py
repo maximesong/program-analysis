@@ -26,6 +26,12 @@ def runpa(filename):
     json_file.close()
     return input_json
 
+def showSource(filename):
+    sourcefile = open(sample_root+filename,'r')
+    outputfile = sourcefile.read()
+    sourcefile.close()
+    return outputfile
+
 class index(app.page):
     path = '/'
     def GET(self):
@@ -95,6 +101,17 @@ class listdir(app.page):
             'parent': os.path.normpath(os.path.join(path, os.pardir)),
         })
     
+class serverdata(app.page):
+    def POST(self):
+        params = json.loads(web.data())
+        req_type = params["type"]
+        if req_type == "cfg":
+            return runpa(params["filename"])
+        elif req_type == "dir":
+            return "Maxime Song"
+        elif req_type == "file":
+            return showSource(params["filename"])
+
 class sources(app.page):
     def GET(self):
         return render2.sources()    
