@@ -104,13 +104,37 @@ class listdir(app.page):
 class serverdata(app.page):
     def POST(self):
         params = json.loads(web.data())
+        web.header('Content-Type', 'application/json')
         req_type = params["type"]
         if req_type == "cfg":
             return runpa(params["filename"])
         elif req_type == "dir":
-            return "Maxime Song"
+            return dir_to_json(params["dir"])
         elif req_type == "file":
             return showSource(params["filename"])
+
+    def to_sample_dir(self, path):
+        return os.path.join(sample_root + path)
+
+    def dir_to_json(self, path):
+        entries = os.listdir(self.to_sample_dir(path))
+        print(self.to_sample_dir(path))
+        print(entries)
+        files = []
+        dirs = []
+        for e in entries:
+            p = os.path.join(path, e)
+            if os.path.isfile(self.to_sample_dir(p)):
+                files.append(e)
+            elif os.path.isdir(self.to_sample_dir(p)):
+                dirs.append(e)
+        return json.dumps({
+            'base': path,
+            'files': files,
+            'dirs': dirs,
+            'parent': os.path.normpath(os.path.join(path, os.pardir)),
+        })
+
 
 class sources(app.page):
     def GET(self):
