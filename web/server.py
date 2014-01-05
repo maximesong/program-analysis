@@ -13,6 +13,18 @@ f = open("sample_code.cpp")
 sample_code = f.read()
 
 sample_root = "../samples"
+output = ""
+
+def runpa(filename):
+    filepath = sample_root+filename
+    proc = subprocess.Popen(["../pa",filepath],stdout=subprocess.PIPE)
+    proc.wait()
+    json_path = "../tmpjson/funclist.json"
+    json_file = open(json_path,'r')
+    output = json_file.read()
+    input_json = json.loads(output)
+    json_file.close()
+    return input_json
 
 class index(app.page):
     path = '/'
@@ -22,26 +34,27 @@ class index(app.page):
     def POST(self):
         mystring = web.input(code="")
         code = mystring.code;
-        filename = "myfile.cpp"
-        file_object = open(filename,'w')
+        filename = "/myfile.cpp"
+        file_object = open(sample_root+filename,'w')
         file_object.write(code)
         file_object.close()
-        proc = subprocess.Popen(["../pa","myfile.cpp"],stdout=subprocess.PIPE)
-        proc.wait()
-        output=proc.stdout.read()
-	input_json = json.loads(output);
-	output_json = {
-			"nodes": [
-				],
-			"edges": [
-			],
-			};
-	for func in input_json["functions"]:
-		output_json["nodes"].append(func)
-	calls = input_json["calls"]
-	for caller in calls:
-		for callee in calls[caller]:
-			output_json["edges"].append([ caller, callee ])
+        output_json = runpa(filename)
+       # proc = subprocess.Popen(["../pa","myfile.cpp"],stdout=subprocess.PIPE)
+       # proc.wait()
+       # output=proc.stdout.read()
+#	input_json = json.loads(output)
+#	output_json = {
+#			"nodes": [
+#				],
+#			"edges": [
+#			],
+#			};
+#	for func in input_json["functions"]:
+#		output_json["nodes"].append(func)
+#	calls = input_json["calls"]
+#	for caller in calls:
+#		for callee in calls[caller]:
+#			output_json["edges"].append([ caller, callee ])
 	print output_json
         return render.index(code, json.dumps(output_json), output)
 
@@ -88,5 +101,3 @@ class sources(app.page):
 
 if __name__ == '__main__':
 	app.run()
-
-

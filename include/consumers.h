@@ -10,6 +10,9 @@
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/ASTConsumer.h"
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 #include "jsonxx.h"
 
 using namespace clang;
