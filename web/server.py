@@ -17,9 +17,11 @@ output = ""
 
 def runpa(filename,args):
     filepath = sample_root+filename
-    proc = subprocess.Popen(["../pa",filepath,args],stdout=subprocess.PIPE)
+    proc = subprocess.Popen(["./pa",filepath,args],stdout=subprocess.PIPE, cwd="../")
     proc.wait()
     if args == "-cfg":
+        if not os.path.exists("../tmpjson"):
+            os.mkdir("../tmpjson")
 	json_path = "../tmpjson/funclist.json"
 	json_file = open(json_path,'r')
 	output = json_file.read()
@@ -41,6 +43,8 @@ def runpa(filename,args):
         calls = input_json["calls"]
         for caller in calls:
             for callee in calls[caller]:
+                if callee not in output_json["nodes"]:
+                    output_json["nodes"].append(callee)
                 output_json["edges"].append([ caller, callee ])
 	return json.dumps(output_json)
 

@@ -8,6 +8,7 @@
   angular.module("app", [])
     .controller("sourceCtrl", function($scope, $http, $location) {
       var POST_URL = "/serverdata";
+      $scope.DEBUG = false;
       $scope.dir = {
 	'files':[],
 	'dirs':[]
@@ -16,7 +17,8 @@
         $location.path("/");
       }
 
-      $scope.refresh = function() {
+      $scope.debug = function() {
+        $scope.DEBUG = !$scope.DEBUG;
       };
 
       $scope.isCurrentPathADir = function() {
@@ -82,7 +84,14 @@
                        }
                       ).success(function (data) {
 		        $scope.cgJSON = data;
-		      });
+//                        data = JSON.stringify(data).replace(/>/g, "").replace(/</g, "");
+                        console.log(data);
+		        var graph = new Springy.Graph();
+                        graph.loadJSON(data);
+                        var springy = jQuery('#springydemo').springy({
+                          graph: graph
+                        });
+                      });
 	  }
         });
     });

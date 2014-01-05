@@ -9,12 +9,15 @@
     <script src="static/js/bootstrap.js"></script>
     <script src="static/js/holder.js"></script>
     <script src="static/js/angular.js"></script>
+    <script src="static/js/springy.js"></script>
+    <script src="static/js/springyui.js"></script>
     <script src="static/js/app.js"></script>
     <title>Program Analysis from Sources</title>
   </head>
   <body ng-app="app">
     <div class="container" ng-controller="sourceCtrl">
-      <h1>Sources</h1>
+      <h1>Sources      <div class="btn btn-primary" ng-click="debug()">Debug</div>
+</h1>
       <div class="row">
 	   <div class="col-md-3 well">
 	     <ul class="nav">
@@ -53,9 +56,15 @@
 	       </ul>
 	       
 	       <pre class="source-code" ng-show="isTabSelected('Source')">{{sourceCode}}</pre>
-	       <pre class="source-code" ng-show="isTabSelected('Call Graph')">{{cgJSON}}</pre>
-	       <pre class="source-code" ng-show="isTabSelected('CFG')">{{cfgJSON}}</pre>
-       <div class="btn btn-primary" ng-click="refresh()">Refresh</div>
+	       <div ng-show="isTabSelected('Call Graph')">
+		 <div class="container-canvas">
+		   <canvas id="springydemo" width="800" height="480"/>
+		 </div>
+		 <pre class="source-code" ng-show="DEBUG">{{cgJSON}}</pre>
+	       </div>
+	       <div ng-show="isTabSelected('CFG')">
+		 <pre class="source-code" ng-show="DEBUG">{{cfgJSON}}</pre>
+	       </div>
 	     </div>
 	   </div>
       </div>

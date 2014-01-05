@@ -200,10 +200,7 @@ void CFGVisitor::setContext(ASTContext *Context)
 
 void CFGVisitor::printFuncList()
 {
-    struct passwd *pw = getpwuid(getuid());
-    const char *homedir = pw->pw_dir;
-    string json_file(homedir);
-    json_file = json_file + "/program-analysis/tmpjson/funclist.json";
+    string json_file = DirSettings::getWorkingDir() + "/tmpjson/funclist.json";
     //cout << json_file << endl;
     fstream file;
     file.open(json_file,fstream::trunc|fstream::out);

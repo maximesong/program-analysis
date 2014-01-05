@@ -5,7 +5,7 @@ vpath %.d build
 
 CC = clang++
 program = pa
-sources = main.cpp consumers.cpp jsonxx.cpp
+sources = main.cpp consumers.cpp jsonxx.cpp utils.cpp
 objects = $(addprefix build/,$(sources:.cpp=.o))
 build_dir = build
 LINKFLAGS = --std=c++11 -lclangTooling -lclangFrontendTool -lclangFrontend -lclangDriver -lclangSerialization -lclangCodeGen -lclangParse -lclangSema -lclangStaticAnalyzerFrontend -lclangStaticAnalyzerCheckers -lclangStaticAnalyzerCore -lclangARCMigrate -lclangRewriteFrontend -lclangRewriteCore -lclangAnalysis -lclangEdit -lclangAST -lclangBasic -lclangLex `llvm-build/Release+Asserts/bin/llvm-config --cxxflags --ldflags --libs`
@@ -27,7 +27,7 @@ build/%.d: %.cpp
 		sed 's,\($*\)\.o[ :]*,build/\1.o build/$@ :,g' < $@.$$$$ > $@; \
 		cat $@ ;\
 		rm -f $@.$$$$
-		
+
 build/%.o: %.cpp
 	$(CC) -c -o $@ $< $(CXXFLAGS)
 

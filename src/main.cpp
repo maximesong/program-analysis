@@ -12,6 +12,7 @@
 #include "clang/Basic/LangOptions.h"
 
 #include "consumers.h"
+#include "utils.h"
 
 using namespace std;
 using namespace clang::tooling;
@@ -46,6 +47,10 @@ void analyze_file(string filename) {
 }
 
 int main(int argc, const char **argv) {
+	char cwd[256];
+	getcwd(cwd, 255);
+	DirSettings::setWorkingDir(cwd);
+
 	if (argc > 2) {
 		if(argc ==3) argc--;
 		CommonOptionsParser OptionsParser(argc, argv);

@@ -11,3 +11,4 @@ web/myfile.cpp
 samples/CMakeCache.txt
 samples/CMakeFiles/
 samples/cmake_install.cmake
+tmpjson

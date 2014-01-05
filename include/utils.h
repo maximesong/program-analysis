@@ -3,6 +3,8 @@
 
 #include <string>
 #include <fstream>
+#include <vector>
+#include <assert.h>
 
 using namespace std;
 
@@ -93,6 +95,17 @@ public:
 		}
 		return result;
 	}
+};
+
+class DirSettings {
+public:
+  static void setWorkingDir(string dir);
+
+
+  static string getWorkingDir();
+
+private:
+	static string working_dir;
 };
 
 #endif
