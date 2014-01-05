@@ -1,4 +1,10 @@
 (function() {
+  // endsWith is not available for chrome
+  if (typeof String.prototype.endsWith !== 'function') {
+    String.prototype.endsWith = function(suffix) {
+      return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+  }
   angular.module("app", [])
     .controller("sourceCtrl", function($scope, $http, $location) {
       var POST_URL = "/serverdata";
@@ -69,6 +75,7 @@
                       ).success(function (data) {
 		        $scope.cfgJSON = data;
 		      });
+            /*
             $http.post(POST_URL,
 		       { 
                          type: "cg",
@@ -77,6 +84,7 @@
                       ).success(function (data) {
 		        $scope.cgJSON = data;
 		      });
+            */
 	  }
         });
     });
