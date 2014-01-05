@@ -18,7 +18,7 @@ using namespace clang::tooling;
 using namespace clang;
 using namespace llvm;
 
-class ProgramAnalysisAction : public ASTFrontendAction {
+class CFGAnalysisAction : public ASTFrontendAction {
 public:
 	virtual ASTConsumer *CreateASTConsumer(
 			CompilerInstance &Compiler, StringRef InFile) {
@@ -26,8 +26,16 @@ public:
 	}
 };
 
+class CGAnalysisAction : public ASTFrontendAction {
+public:
+        virtual ASTConsumer *CreateASTConsumer(
+                        CompilerInstance &Compiler, StringRef InFile) {
+                return new CallGraphConsumer;
+        }
+};
+
 void analyze_code(string source) {
-	runToolOnCode(new ProgramAnalysisAction, source);
+	runToolOnCode(new CFGAnalysisAction, source);
 }
 
 void analyze_file(string filename) {
@@ -40,10 +48,18 @@ void analyze_file(string filename) {
 int main(int argc, const char **argv) {
 	if (argc > 1) {
 		//analyze_file(argv[1]);
+                //cout << argv[2] <<endl;
+                if(argc ==3) argc--;
 		CommonOptionsParser OptionsParser(argc, argv);
 		ClangTool Tool(OptionsParser.getCompilations(),
 				OptionsParser.getSourcePathList());
-		Tool.run(newFrontendActionFactory<ProgramAnalysisAction>());
+                if ( strncmp(argv[2],"-cfg",4) == 0 ){
+			Tool.run(newFrontendActionFactory<CFGAnalysisAction>());
+                 }else if(strncmp(argv[2],"-cg",3) == 0 ){
+			Tool.run(newFrontendActionFactory<CGAnalysisAction>());
+		}else{
+			cout<< "Usage: " << argv[2] << " <analysis type>" << endl;
+		}
 	} else if (argc == 3) {
 		int my_argc = 2;
 		const char *my_argv[2];
@@ -52,7 +68,7 @@ int main(int argc, const char **argv) {
 		CommonOptionsParser OptionsParser(my_argc, my_argv);
 		ClangTool Tool(OptionsParser.getCompilations(),
 				OptionsParser.getSourcePathList());
-		Tool.run(newFrontendActionFactory<ProgramAnalysisAction>());
+		Tool.run(newFrontendActionFactory<CFGAnalysisAction>());
 	} else {
 		cout << "Usage: " << argv[0] << " <filename>" << endl;
 	}

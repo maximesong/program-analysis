@@ -15,16 +15,33 @@ sample_code = f.read()
 sample_root = "../samples"
 output = ""
 
-def runpa(filename):
+def runpa(filename,args):
     filepath = sample_root+filename
-    proc = subprocess.Popen(["../pa",filepath],stdout=subprocess.PIPE)
+    proc = subprocess.Popen(["../pa",filepath,args],stdout=subprocess.PIPE)
     proc.wait()
-    json_path = "../tmpjson/funclist.json"
-    json_file = open(json_path,'r')
-    output = json_file.read()
-    input_json = json.loads(output)
-    json_file.close()
-    return input_json
+    if args == "-cfg":
+	json_path = "../tmpjson/funclist.json"
+	json_file = open(json_path,'r')
+	output = json_file.read()
+	input_json = json.loads(output)
+	json_file.close()
+    	return input_json
+    else:
+	output=proc.stdout.read()
+        input_json = json.loads(output)
+        output_json = {
+                        "nodes": [
+                               ],
+                       "edges": [
+                       ],
+                       };
+        for func in input_json["functions"]:
+            output_json["nodes"].append(func)
+        calls = input_json["calls"]
+        for caller in calls:
+            for callee in calls[caller]:
+                output_json["edges"].append([ caller, callee ])
+	return output_json
 
 def showSource(filename):
     sourcefile = open(sample_root+filename,'r')
@@ -44,7 +61,7 @@ class index(app.page):
         file_object = open(sample_root+filename,'w')
         file_object.write(code)
         file_object.close()
-        output_json = runpa(filename)
+        output_json = runpa(filename,"")
        # proc = subprocess.Popen(["../pa","myfile.cpp"],stdout=subprocess.PIPE)
        # proc.wait()
        # output=proc.stdout.read()
@@ -107,7 +124,9 @@ class serverdata(app.page):
         web.header('Content-Type', 'application/json')
         req_type = params["type"]
         if req_type == "cfg":
-            return runpa(params["filename"])
+            return runpa(params["filename"],"-cfg")
+	elif req_type == "cg":
+	    return runpa(params["filename"],"-cg")
         elif req_type == "dir":
             return dir_to_json(params["dir"])
         elif req_type == "file":

@@ -110,7 +110,7 @@ void CFGConsumer::HandleTranslationUnit(ASTContext &Context)
 {
 	visitor.setContext(&Context);
 	visitor.TraverseDecl(Context.getTranslationUnitDecl());
-    visitor.printFuncList();
+        visitor.printFuncList();
 }
 
 bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D) 
@@ -138,7 +138,7 @@ bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D)
 	LangOptions ops;
 	for (auto block : *cfg) {
 		Object blockObject;
-		block->dump(cfg, ops);
+		//block->dump(cfg, ops);
 
 		Array blockElements;
 		Array predArray;
@@ -204,7 +204,7 @@ void CFGVisitor::printFuncList()
     const char *homedir = pw->pw_dir;
     string json_file(homedir);
     json_file = json_file + "/program-analysis/tmpjson/funclist.json";
-    cout << json_file << endl;
+    //cout << json_file << endl;
     fstream file;
     file.open(json_file,fstream::trunc|fstream::out);
     Object output;
