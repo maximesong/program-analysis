@@ -12,6 +12,16 @@
       $scope.refresh = function() {
       };
 
+      $scope.tabSelected = 'Source';
+
+      $scope.onTabSelected = function(tab) {
+        $scope.tabSelected = tab;
+      };
+
+      $scope.isTabSelected = function(tab) {
+        return $scope.tabSelected === tab;
+      };
+
       $scope.is_root_dir = function() {
 	return $scope.dir_info && $scope.dir_info.base === $scope.dir_info.parent;
       };
