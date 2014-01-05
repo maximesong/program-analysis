@@ -25,9 +25,10 @@ def runpa(filename,args):
 	output = json_file.read()
 	input_json = json.loads(output)
 	json_file.close()
-    	return input_json
+    	return json.dumps(input_json)
     else:
 	output=proc.stdout.read()
+	print output
         input_json = json.loads(output)
         output_json = {
                         "nodes": [
@@ -41,7 +42,7 @@ def runpa(filename,args):
         for caller in calls:
             for callee in calls[caller]:
                 output_json["edges"].append([ caller, callee ])
-	return output_json
+	return json.dumps(output_json)
 
 def showSource(filename):
     sourcefile = open(sample_root+filename,'r')
