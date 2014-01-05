@@ -88,7 +88,12 @@
                         console.log(data);
 		        var graph = new Springy.Graph();
                         graph.loadJSON(data);
-                        var springy = jQuery('#springydemo').springy({
+                        var canvas = document.getElementById('springydemo');
+//                        var canvas = $('#springydemo');
+                        console.log(canvas);
+                        var context = canvas.getContext('2d');
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        var springy = $('#springydemo').springy({
                           graph: graph
                         });
                       });
