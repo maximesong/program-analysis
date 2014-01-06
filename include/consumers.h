@@ -53,9 +53,19 @@ private:
 	CFGVisitor visitor;
 };
 
+class LiveVariablesVisitor: public RecursiveASTVisitor<CFGVisitor> {
+public:
+	virtual bool VisitFunctionDecl(FunctionDecl *D);
+	void setContext(ASTContext *Context);
+private:
+	ASTContext *context;
+};
+
 class LiveVariablesConsumer : public ASTConsumer {
 public:
-	virtual void HandleTranslatetionUnit(ASTContext &context);
+	virtual void HandleTranslationUnit(ASTContext &context);
+private:
+	LiveVariablesVisitor visitor;
 };
 
 #endif

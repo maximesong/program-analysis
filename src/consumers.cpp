@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "clang/Lex/Lexer.h"
+#include "clang/Analysis/Analyses/LiveVariables.h"
 #include "utils.h"
 
 using namespace std;
@@ -113,8 +114,7 @@ void CFGConsumer::HandleTranslationUnit(ASTContext &Context)
         visitor.printFuncList();
 }
 
-bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D) 
-{
+bool CFGVisitor::VisitFunctionDecl(FunctionDecl *D) {
 	//cout << "VISIT" << endl;
 	Object function;
 	Array blocks;
@@ -213,4 +213,36 @@ void CFGVisitor::printFuncList()
 void LiveVariablesConsumer::HandleTranslationUnit(ASTContext &Context)
 {
 	cout << "hi" << endl;
+	visitor.setContext(&Context);
+	visitor.TraverseDecl(Context.getTranslationUnitDecl());
+}
+
+bool LiveVariablesVisitor::VisitFunctionDecl(FunctionDecl *D) 
+{
+
+	SourceManager &manager = context->getSourceManager();
+	StringRef ref = manager.getFilename(D->getSourceRange().getBegin());
+	if (ref.empty()) {
+		return true;
+	}
+	string source_file = ref.data();
+	if (!D->hasBody() || !is_user_defined(source_file)) {
+		//cout << "Skip: " << D->getNameInfo().getAsString() << endl;
+		return true;
+	}
+	cout << source_file << endl;
+	AnalysisDeclContextManager *m = 
+		new  AnalysisDeclContextManager();
+	AnalysisDeclContext analysis_context(m, D);
+	auto L = analysis_context.getAnalysis<LiveVariables>();
+	L->dumpBlockLiveness(manager);
+	return true;
+	//CFG *cfg = analysis_context.getCFG();
+	//LangOptions ops;
+	//for (auto block : *cfg) {
+}
+
+void LiveVariablesVisitor::setContext(ASTContext *Context)
+{
+	context = Context;	
 }

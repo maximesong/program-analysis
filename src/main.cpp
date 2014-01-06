@@ -35,11 +35,11 @@ public:
         }
 };
 
-class CGAnalysisAction : public ASTFrontendAction {
+class LVAnalysisAction : public ASTFrontendAction {
 public:
         virtual ASTConsumer *CreateASTConsumer(
                         CompilerInstance &Compiler, StringRef InFile) {
-                return new CallGraphConsumer;
+                return new LiveVariablesConsumer;
         }
 };
 
@@ -68,6 +68,8 @@ int main(int argc, const char **argv) {
 			Tool.run(newFrontendActionFactory<CFGAnalysisAction>());
 		} else if(strncmp(argv[2],"-cg", 3) == 0 ){
 			Tool.run(newFrontendActionFactory<CGAnalysisAction>());
+		} else if(strncmp(argv[2],"-lv", 3) == 0 ){
+			Tool.run(newFrontendActionFactory<LVAnalysisAction>());
 		} else{
 			cout<< "Usage: " << argv[2] << " <analysis type>" << endl;
 		}
