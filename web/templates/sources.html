@@ -12,6 +12,7 @@
     <script src="static/js/springy.js"></script>
     <script src="static/js/springyui.js"></script>
     <script src="static/js/app.js"></script>
+    <script src="static/js/jquery-ui.js"></script>
     <title>Program Analysis from Sources</title>
   </head>
   <body ng-app="app">
@@ -63,7 +64,23 @@
 		 <pre class="source-code" ng-show="DEBUG">{{cgJSON}}</pre>
 	       </div>
 	       <div ng-show="isTabSelected('CFG')">
-		 <pre class="source-code" ng-show="DEBUG">{{cfgJSON}}</pre>
+		 <pre class="source-code" ng-show="DEBUG">
+		   <div ng-repeat="cfg in cfgList">
+		     <h4>{{cfg.id}}</h4>
+		     <table class="table table-bordered">
+		       <tr>
+		         <th>#</th>
+		         <th>Pred_id_list</th>
+		         <th>Succ_id_list</th>
+		       </tr>
+		       <tr ng-repeat="block in cfg.blocks">
+		         <td><a href="#" title={{block.elements}}>{{block.block_id}}</a></td>
+		         <td>{{block.pred_id_list}}</td>
+		         <td>{{block.succ_id_list}}</td>
+		       </tr>
+		     </table>
+		   </div>
+                 </pre>
 	       </div>
 	     </div>
 	   </div>
