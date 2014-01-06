@@ -45,7 +45,8 @@ def runpa(filename,args):
             for callee in calls[caller]:
                 if callee not in output_json["nodes"]:
                     output_json["nodes"].append(callee)
-                output_json["edges"].append([ caller, callee ])
+                if [ caller, callee ] not in output_json["edges"]:
+                    output_json["edges"].append([ caller, callee ])
 	return json.dumps(output_json)
 
 def showSource(filename):

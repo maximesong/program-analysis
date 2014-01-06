@@ -119,6 +119,8 @@
                         console.log(data);
 		        var graph = new Springy.Graph();
                         graph.loadJSON(data);
+                        $("#springydemo").remove();
+                        $("#canvas-container").append('<canvas id="springydemo" width="800", height="480"/>');
                         var canvas = document.getElementById('springydemo');
 //                        var canvas = $('#springydemo');
                         console.log(canvas);
