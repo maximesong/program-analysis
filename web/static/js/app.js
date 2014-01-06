@@ -95,12 +95,33 @@
 		            blockInfo.block_id = oneBlock.block_id;
 		            blockInfo.pred_id_list = oneBlock.pred_id_list;
 		            blockInfo.succ_id_list = oneBlock.succ_id_list;
-		            for (var k = 0; k < oneBlock.elements.length-1; k++) {
-		              blockInfo.elements += oneBlock.elements[k].code;
+		            var simpleElements = [];
+		            for (var m = 0; m < oneBlock.elements.length; m++) {
+		              var oneElement = oneBlock.elements[m];
+		              var bool = true;
+		              for (var n = 0; n < simpleElements.length; n++) {
+		                if (oneElement.start_line == simpleElements[n].start_line) {
+		                  bool = false;
+		                }
+		              }
+		              if (bool == true) {
+		                simpleElements.push(oneElement);
+		              }
+		            }
+		            for (var k = 0; k < simpleElements.length-1; k++) {
+		              blockInfo.elements += simpleElements[k].start_line + ":";
+		              blockInfo.elements += simpleElements[k].code;
 		              blockInfo.elements += "\n";
 		            }
-		            if (oneBlock.elements.length > 0) {
-		              blockInfo.elements += oneBlock.elements[oneBlock.elements.length-1].code;
+		            if (simpleElements.length > 0) {
+		              blockInfo.elements += simpleElements[k].start_line + ":";
+		              blockInfo.elements += simpleElements[simpleElements.length-1].code;
+		            }
+		            if (blockInfo.block_id == oneFuncJSON.entry_id) {
+		              blockInfo.elements = "ENTRY";
+		            }
+		            if (blockInfo.block_id == oneFuncJSON.exit_id) {
+		              blockInfo.elements = "EXIT";
 		            }
 		            oneCFG.blocks.push(blockInfo);
 		          }
