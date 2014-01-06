@@ -76,6 +76,37 @@
                        }
                       ).success(function (data) {
 		        $scope.cfgJSON = data;
+		        var cfgList = [];
+		        for (var i = 0; i < data.funclist.length; i++) {
+		          var oneFuncJSON = data.funclist[i];
+		          var oneCFG = {
+		            id : "",
+		            blocks : [],
+		          }
+		          oneCFG.id = oneFuncJSON.id;
+		          for (var j = 0; j < oneFuncJSON.blocks.length; j++) {
+		            var oneBlock = oneFuncJSON.blocks[j];
+		            var blockInfo = {
+		              elements : "",
+		              block_id : 0,
+		              succ_id_list : [],
+		              pred_id_list : []
+		            }
+		            blockInfo.block_id = oneBlock.block_id;
+		            blockInfo.pred_id_list = oneBlock.pred_id_list;
+		            blockInfo.succ_id_list = oneBlock.succ_id_list;
+		            for (var k = 0; k < oneBlock.elements.length-1; k++) {
+		              blockInfo.elements += oneBlock.elements[k].code;
+		              blockInfo.elements += "\n";
+		            }
+		            if (oneBlock.elements.length > 0) {
+		              blockInfo.elements += oneBlock.elements[oneBlock.elements.length-1].code;
+		            }
+		            oneCFG.blocks.push(blockInfo);
+		          }
+		          cfgList.push(oneCFG);
+		        }
+		        $scope.cfgList = cfgList;
 		      });
             $http.post(POST_URL,
 		       { 

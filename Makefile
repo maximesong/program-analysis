@@ -11,7 +11,7 @@ build_dir = build
 LINKFLAGS = --std=c++11 -lclangTooling -lclangFrontendTool -lclangFrontend -lclangDriver -lclangSerialization -lclangCodeGen -lclangParse -lclangSema -lclangStaticAnalyzerFrontend -lclangStaticAnalyzerCheckers -lclangStaticAnalyzerCore -lclangARCMigrate -lclangRewriteFrontend -lclangRewriteCore -lclangAnalysis -lclangEdit -lclangAST -lclangBasic -lclangLex `llvm-build/Release+Asserts/bin/llvm-config --cxxflags --ldflags --libs`
 
 
-CXXFLAGS += --std=c++11 -Iinclude `llvm-build/Release+Asserts/bin/llvm-config --cxxflags`
+CXXFLAGS += --std=c++11 -Iinclude -I/usr/include/i386-linux-gnu/c++/4.8/ `llvm-build/Release+Asserts/bin/llvm-config --cxxflags`
 
 # -Lllvm-build/Release+Asserts/lib/ -lclangTooling -lclang -lLLVMCore -lLTO -L/usr/lib64/llvm -lLLVMSupport
 
