@@ -94,12 +94,15 @@
 		              elements : "",
 		              block_id : 0,
 		              succ_id_list : [],
-		              pred_id_list : []
+		              pred_id_list : [],
+		              lines : "",
 		            }
 		            blockInfo.block_id = oneBlock.block_id;
 		            blockInfo.pred_id_list = oneBlock.pred_id_list;
 		            blockInfo.succ_id_list = oneBlock.succ_id_list;
 		            var simpleElements = [];
+			    var blockMinLine = 1000;
+			    var blockMaxLine = -1;
 		            for (var m = 0; m < oneBlock.elements.length; m++) {
 		              var oneElement = oneBlock.elements[m];
 		              var bool = true;
@@ -108,6 +111,12 @@
 		              }
 		              if (oneElement.start_line > maxLine) {
 		                maxLine = oneElement.start_line;
+		              }
+		              if (oneElement.start_line < blockMinLine) {
+		                blockMinLine = oneElement.start_line;
+		              }
+		              if (oneElement.start_line > blockMaxLine) {
+		                blockMaxLine = oneElement.start_line;
 		              }
 		              for (var n = 0; n < simpleElements.length; n++) {
 		                if (oneElement.start_line == simpleElements[n].start_line) {
@@ -132,6 +141,9 @@
 		            }
 		            if (blockInfo.block_id == oneFuncJSON.exit_id) {
 		              blockInfo.elements = "EXIT";
+		            }
+			    if (blockMaxLine > 0) {
+		              blockInfo.lines += blockMinLine + " - " + blockMaxLine;
 		            }
 		            oneCFG.blocks.push(blockInfo);
 		          }
