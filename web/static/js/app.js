@@ -75,15 +75,19 @@
                          "filename": newPath
                        }
                       ).success(function (data) {
-		        $scope.cfgJSON = data;
+			var srcCode = $scope.sourceCode.split("\n");
+ 			$scope.cfgJSON = data;
 		        var cfgList = [];
 		        for (var i = 0; i < data.funclist.length; i++) {
 		          var oneFuncJSON = data.funclist[i];
 		          var oneCFG = {
 		            id : "",
 		            blocks : [],
+			    srcCode : ""
 		          }
 		          oneCFG.id = oneFuncJSON.id;
+			  var minLine = 1000;
+			  var maxLine = -1;
 		          for (var j = 0; j < oneFuncJSON.blocks.length; j++) {
 		            var oneBlock = oneFuncJSON.blocks[j];
 		            var blockInfo = {
@@ -99,6 +103,12 @@
 		            for (var m = 0; m < oneBlock.elements.length; m++) {
 		              var oneElement = oneBlock.elements[m];
 		              var bool = true;
+		              if (oneElement.start_line < minLine) {
+		                minLine = oneElement.start_line;
+		              }
+		              if (oneElement.start_line > maxLine) {
+		                maxLine = oneElement.start_line;
+		              }
 		              for (var n = 0; n < simpleElements.length; n++) {
 		                if (oneElement.start_line == simpleElements[n].start_line) {
 		                  bool = false;
@@ -125,6 +135,9 @@
 		            }
 		            oneCFG.blocks.push(blockInfo);
 		          }
+			  for (var line = minLine; line <= maxLine; line++) {
+			    oneCFG.srcCode += line + ":" + srcCode[line-1] + "\n"
+			  }
 		          cfgList.push(oneCFG);
 		        }
 		        $scope.cfgList = cfgList;

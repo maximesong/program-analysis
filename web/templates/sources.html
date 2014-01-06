@@ -64,9 +64,10 @@
 		 <pre class="source-code" ng-show="DEBUG">{{cgJSON}}</pre>
 	       </div>
 	       <div ng-show="isTabSelected('CFG')">
-		 <pre class="source-code" ng-show="DEBUG">
+		 <pre class="source-code">
 		   <div ng-repeat="cfg in cfgList">
 		     <h4>{{cfg.id}}</h4>
+		     <pre>{{cfg.srcCode}}</pre>
 		     <table class="table table-bordered">
 		       <tr>
 		         <th>#</th>
