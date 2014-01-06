@@ -209,3 +209,8 @@ void CFGVisitor::printFuncList()
     file << output;
     file.close();
 }
+
+void LiveVariablesConsumer::HandleTranslationUnit(ASTContext &Context)
+{
+	cout << "hi" << endl;
+}

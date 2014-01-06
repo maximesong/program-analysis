@@ -35,6 +35,14 @@ public:
         }
 };
 
+class CGAnalysisAction : public ASTFrontendAction {
+public:
+        virtual ASTConsumer *CreateASTConsumer(
+                        CompilerInstance &Compiler, StringRef InFile) {
+                return new CallGraphConsumer;
+        }
+};
+
 void analyze_code(string source) {
 	runToolOnCode(new CFGAnalysisAction, source);
 }

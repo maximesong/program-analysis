@@ -53,4 +53,9 @@ private:
 	CFGVisitor visitor;
 };
 
+class LiveVariablesConsumer : public ASTConsumer {
+public:
+	virtual void HandleTranslatetionUnit(ASTContext &context);
+};
+
 #endif
